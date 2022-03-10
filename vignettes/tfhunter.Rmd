@@ -1,0 +1,50 @@
+---
+title: "Introduction to tfhunter"
+author: 
+  - name: Fabricio Almeida-Silva
+    affiliation:
+    - VIB-UGent Center for Plant Systems Biology, Ghent, Belgium
+  - name: Fabricio Almeida-Silva
+    affiliation:
+    - VIB-UGent Center for Plant Systems Biology, Ghent, Belgium
+output: 
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    code_folding: show
+date: "`r doc_date()`"
+package: "`r pkg_ver('tfhunter')`"
+vignette: >
+  %\VignetteIndexEntry{Introduction to tfhunter}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    crop = NULL ## Related to https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016656.html
+)
+```
+
+
+# Basics
+
+## Install `tfhunter`
+
+`R` is an open-source statistical environment which can be easily modified to enhance its functionality via packages. `r Biocpkg("tfhunter")` is a `R` package available via the [Bioconductor](http://bioconductor.org) repository for packages. `R` can be installed on any operating system from [CRAN](https://cran.r-project.org/) after which you can install `r Biocpkg("tfhunter")` by using the following commands in your `R` session:
+
+```{r "install", eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+      install.packages("BiocManager")
+  }
+
+BiocManager::install("tfhunter")
+
+## Check that you have a valid Bioconductor installation
+BiocManager::valid()
+```
+
