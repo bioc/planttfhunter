@@ -1,0 +1,12 @@
+
+#----Load data------------------------------------------------------------------
+data(gsu)
+seq <- gsu[1:2]
+
+#----Start tests----------------------------------------------------------------
+test_that("annotate_pfam() returns a data frame of PFAM annotation", {
+  annot <- annotate_pfam(seq)
+  expect_equal(class(annot), "data.frame")
+  expect_equal(ncol(annot), 2)
+  expect_equal(nrow(annot), 2)
+})

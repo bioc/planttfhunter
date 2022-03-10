@@ -11,11 +11,9 @@ output:
   BiocStyle::html_document:
     self_contained: yes
     toc: true
-    toc_float: true
     toc_depth: 2
     code_folding: show
-date: "`r doc_date()`"
-package: "`r pkg_ver('tfhunter')`"
+date: "`r Sys.Date()`"
 vignette: >
   %\VignetteIndexEntry{Introduction to tfhunter}
   %\VignetteEngine{knitr::rmarkdown}
