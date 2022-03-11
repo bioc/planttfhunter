@@ -34,14 +34,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports:
     Biostrings,
-    bio3d
+    bio3d,
+    utils
 Suggests: 
     BiocStyle,
     covr,
     knitr,
-    RefManageR,
     rmarkdown,
-    sessioninfo,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
