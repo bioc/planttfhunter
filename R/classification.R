@@ -5,7 +5,10 @@
 #' @param domain_annotation A 2-column data frame with the gene ID in the first
 #' column and the domain ID in the second column.
 #' 
-#' 
+#' @return A 2-column data frame with the variables \strong{Gene} 
+#' and \strong{Family} representing gene ID and TF family, respectively.
+#' @export
+#' @rdname classify_tfs
 #' @examples 
 #' data(gsu_annotation)
 #' domain_annotation <- gsu_annotation

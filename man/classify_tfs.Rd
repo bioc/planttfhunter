@@ -10,6 +10,10 @@ classify_tfs(domain_annotation = NULL)
 \item{domain_annotation}{A 2-column data frame with the gene ID in the first
 column and the domain ID in the second column.}
 }
+\value{
+A 2-column data frame with the variables \strong{Gene}
+and \strong{Family} representing gene ID and TF family, respectively.
+}
 \description{
 Identify TFs and classify them in families
 }

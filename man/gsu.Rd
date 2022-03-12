@@ -12,7 +12,8 @@ by \code{Biostrings::readAAStringSet()}.
 data(gsu)
 }
 \description{
-Data obtained from PLAZA Diatoms.
+Data obtained from PLAZA Diatoms. Only genes containing domains used for
+TF family classification were kept for package size issues.
 }
 \examples{
 data(gsu)

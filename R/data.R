@@ -1,7 +1,8 @@
 
 #' Protein sequences of the algae species Galdieria sulphuraria
 #'
-#' Data obtained from PLAZA Diatoms.
+#' Data obtained from PLAZA Diatoms. Only genes containing domains used for
+#' TF family classification were kept for package size issues.
 #'
 #' @name gsu
 #' @format An AAStringSet object as returned 
