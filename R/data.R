@@ -15,3 +15,45 @@
 #' data(gsu)
 #' @usage data(gsu)
 "gsu"
+
+
+#' Data frame of TF family classification scheme
+#'
+#' The classification scheme is the same as the one used by PlantTFDB.
+#' 
+#' @name classification_scheme
+#' @format A data frame with the following variables:
+#' \describe{
+#'  \item{Family}{TF family name.}
+#'  \item{Subfamily}{TF subfamily name.}
+#'  \item{DBD}{DNA-binding domain}
+#'  \item{Auxiliary}{Auxiliary domain}
+#'  \item{Forbidden}{Forbidden domain}
+#' }
+#' @references 
+#' Jin, J., Tian, F., Yang, D. C., Meng, Y. Q., Kong, L., Luo, J., & 
+#' Gao, G. (2016). PlantTFDB 4.0: toward a central hub for transcription 
+#' factors and regulatory interactions in plants. 
+#' Nucleic acids research, gkw982.
+#' @examples 
+#' data(classification_scheme)
+#' @usage data(classification_scheme)
+"classification_scheme"
+
+
+#' Domain annotation for the algae species Galdieria sulphuraria
+#'  
+#' The data set was created using the funcion \code{annotate_pfam()} in local
+#' mode.
+#'
+#' @name gsu_annotation
+#' @format A 2-column data frame with the following variables:
+#' \describe{
+#'  \item{Gene}{Gene ID}
+#'  \item{Annotation}{Domain ID or domain name when ID is not available in PFAM}
+#'}
+#' @examples
+#' data(gsu_annotation)
+#' @usage data(gsu_annotation)
+"gsu_annotation"
+

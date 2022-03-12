@@ -23,8 +23,37 @@ usethis::use_data(
 
 ``` r
 data(gsu)
+gsu_annotation <- annotate_pfam(gsu, mode = "local", evalue = 1e-05)
 
-gsu_pfam <- annotate_pfam(gsu)
+usethis::use_data(
+  gsu_annotation, compress = "xz", overwrite = TRUE
+)
+```
+
+## classification_scheme.rda
+
+The classification scheme is the same as implemented in PlantTFDB.
+
+``` r
+library(tidyverse)
+table <- rvest::read_html("http://planttfdb.gao-lab.org/help_famschema.php") %>%
+  rvest::html_table()
+table <- as.data.frame(table[[3]])
+
+table <- table[-1, -1]
+names(table) <- c("Family", "Subfamily", "DBD", "Auxiliary", "Forbidden")
+table[table == ""] <- NA
+
+table$DBD <- gsub("\\r\\n\\t\\t\\r\\n\\t\\t", " or ", table$DBD)
+table$DBD <- gsub("\ \\(self-build\\)", "", table$DBD)
+table$Auxiliary <- gsub("\ \\(self-build\\)", "", table$Auxiliary)
+table$Auxiliary <- gsub("BELLor", "BELL or", table$Auxiliary)
+table$Forbidden <- gsub("\\r\\n\\t\\tor", " or ", table$DBD)
+
+classification_scheme <- table
+
+usethis::use_data(classification_scheme,
+                  compress = "xz")
 ```
 
 # Data in inst/extdata

@@ -5,11 +5,14 @@
 #' PFAM domains are assigned to each sequence using HMMER.
 #' 
 #' @param seq An AAStringSet object as returned 
-#' by \code{Biostrings::readAAStringSet()}.
+#' by \code{Biostrings::readAAStringSet()}. The sequences in this object must 
+#' represent only the translated sequences of primary (or longest) transcripts.
 #' @param mode Character specifying how to annotate PFAM domains. One of
 #' 'web' (default) or 'local'. If 'local', you must have hmmer installed in
 #' your machine, and the command 'hmmsearch' must be in your PATH.
-#' 
+#' @param evalue Numeric indicating the E-value threshold for domain annotation
+#' with hmmsearch. Only valid if parameter mode = 'local'. Default: 1e-05.
+#'
 #' @return A 2-column data frame with the variables \strong{Gene} 
 #' and \strong{Domain}, which contain gene IDs and domain IDs, respectively.
 #' @importFrom Biostrings writeXStringSet
@@ -20,7 +23,7 @@
 #' data(gsu)
 #' seq <- gsu[1:5]
 #' annotate_pfam(seq)
-annotate_pfam <- function(seq = NULL, mode = "web") {
+annotate_pfam <- function(seq = NULL, mode = "web", evalue = 1e-05) {
   seq_path <- paste0(tempdir(), "/seq.fasta")
   
   gene_names <- names(seq)
@@ -40,7 +43,10 @@ annotate_pfam <- function(seq = NULL, mode = "web") {
       result <- read_hmmsearch(path = paste0(tempdir(), "/search.txt"))
       annot <- NULL
       if(!is.null(result)) {
-        annot <- data.frame(Gene = result$domain_name, Domain = domain)
+        result <- result[result$sequence_evalue < evalue, ]
+        if(nrow(result) != 0) {
+          annot <- data.frame(Gene = result$domain_name, Domain = domain)
+        }
       }
       return(annot)
     })
