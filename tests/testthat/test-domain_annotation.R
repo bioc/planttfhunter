@@ -8,5 +8,4 @@ test_that("annotate_pfam() returns a data frame of domain annotation", {
   annot <- annotate_pfam(seq)
   expect_equal(class(annot), "data.frame")
   expect_equal(ncol(annot), 2)
-  expect_equal(nrow(annot), 2)
 })
