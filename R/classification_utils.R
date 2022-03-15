@@ -161,10 +161,10 @@ check_garp <- function(domains = NULL) {
 #' @noRd
 check_hb <- function(domains = NULL) {
   len_homeobox <- length(domains[domains == "PF00046"])
-  len_hdzip <- length(domains[domains == "HD-ZIP"])
+  len_hdzip <- length(domains[domains == "HD-ZIP_I/II"])
   len_smart <- length(domains[domains == "PF01852"])
   len_elk <- length(domains[domains == "PF03789"])
-  len_wox <- length(domains[domains == "WOX"])
+  len_wox <- length(domains[domains == "Wus_type_Homeobox"])
   len_phd <- length(domains[domains == "PF00628"])
   only_homeobox <- unique(domains)
   only_homeobox <- length(only_homeobox) == 1 & "PF00046" %in% only_homeobox
@@ -329,7 +329,7 @@ check_smallfams <- function(domains = NULL) {
     fam <- "STAT"
   } else if(count("PF03634") != 0) { # TCP
     fam <- "TCP"
-  } else if(count("Trihelix") != 0) { # Trihelix
+  } else if(count("trihelix") != 0) { # Trihelix
     fam <- "Trihelix"
   } else if(count("VOZ") != 0) { # VOZ
     fam <- "VOZ"

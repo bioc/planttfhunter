@@ -37,7 +37,6 @@ annotate_pfam <- function(seq = NULL, mode = "web", evalue = 1e-05) {
     profiles <- system.file("extdata", package = "tfhunter")
     profiles <- list.files(profiles, pattern = ".hmm", full.names = TRUE)
     annotation <- lapply(profiles, function(x) {
-      domain <- gsub("\\.hmm", "", gsub(".*extdata/", "", x))
       out_file <- paste0("--domtblout ", tempdir(), "/search.txt")
       system2("hmmsearch", args = c(out_file, x, seq_path), stdout = FALSE)
       result <- read_hmmsearch(path = paste0(tempdir(), "/search.txt"))
@@ -45,7 +44,10 @@ annotate_pfam <- function(seq = NULL, mode = "web", evalue = 1e-05) {
       if(!is.null(result)) {
         result <- result[result$sequence_evalue < evalue, ]
         if(nrow(result) != 0) {
-          annot <- data.frame(Gene = result$domain_name, Domain = domain)
+          annot <- data.frame(
+            Gene = result$domain_name, 
+            Domain = result$query_name
+          )
         }
       }
       return(annot)

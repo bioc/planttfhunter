@@ -4,7 +4,7 @@ author:
   - name: Fabricio Almeida-Silva
     affiliation:
     - VIB-UGent Center for Plant Systems Biology, Ghent, Belgium
-  - name: Fabricio Almeida-Silva
+  - name: Yves Van de Peer
     affiliation:
     - VIB-UGent Center for Plant Systems Biology, Ghent, Belgium
 output: 
@@ -12,8 +12,9 @@ output:
     self_contained: yes
     toc: true
     toc_depth: 2
-    code_folding: show
+    number_sections: yes
 date: "`r Sys.Date()`"
+bibliography: vignette_bibliography.bib
 vignette: >
   %\VignetteIndexEntry{Introduction to tfhunter}
   %\VignetteEngine{knitr::rmarkdown}
@@ -29,11 +30,13 @@ knitr::opts_chunk$set(
 ```
 
 
-# Basics
+# Introduction
 
-## Install `tfhunter`
+Transcription factors (TFs) are proteins that bind to cis-regulatory elements in promoter regions of genes and regulate their expression. Identifying them in a genome is useful for a variety of reasons, such as exploring their evolutionary history across clades and inferring gene regulatory networks. `tfhunter` allows users to identify TFs from protein sequence data and classify them into families and subfamilies (when applicable). 
 
-`R` is an open-source statistical environment which can be easily modified to enhance its functionality via packages. `r Biocpkg("tfhunter")` is a `R` package available via the [Bioconductor](http://bioconductor.org) repository for packages. `R` can be installed on any operating system from [CRAN](https://cran.r-project.org/) after which you can install `r Biocpkg("tfhunter")` by using the following commands in your `R` session:
+# Installation
+
+You can install `tfhunter` with the following code:
 
 ```{r "install", eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -41,8 +44,62 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
   }
 
 BiocManager::install("tfhunter")
-
-## Check that you have a valid Bioconductor installation
-BiocManager::valid()
 ```
 
+```{r load_package}
+library(tfhunter)
+```
+
+# Data description
+
+In this vignette, we will use protein sequences of TFs from the algae species *Galdieria sulphuraria* as an example. The proteome file was downloaded from the PLAZA Diatoms database [@osuna2020seminavis], and it was filtered to keep only TFs for demonstration purposes. The object `gsu` stores the protein sequences in an AAStringSet object.
+
+```{r data}
+data(gsu)
+gsu
+```
+
+
+# Algorithm description
+
+TF identification and classification is based on the presence of signature protein domains, which are identified using profile hidden Markov models (HMMs). The family classification scheme is the same as the one used by PlantTFDB [@jin2016planttfdb], and it is summarized below: [^1]
+
+```{r scheme, echo = FALSE}
+data(classification_scheme)
+knitr::kable(classification_scheme)
+```
+
+
+[^1]: **Tip:** You can access this classification scheme in your R session by loading the data frame `data(classification_scheme)`.
+
+# Identifying and classifying TFs
+
+To identify TFs from protein sequence data, you will use the function `annotate_pfam()`. This function takes as input an AAStringSet object [^2] and returns a data frame of protein domains associated with each sequence. The HMMER program [@finn2011hmmer] is used to scan protein sequences for the presence of TF-related protein domains, and it can be run either through the web server (by setting `mode = web`) or through a local HMMER installation (`mode = "local"`). We advise you to install HMMER in your machine and set `mode = "local"`, as domain annotation with the web server can take several minutes, especially for large proteomes.
+
+[^2]: **Tip:** If you have protein sequences in a FASTA file, you can read them into an AAStringSet object with the function `readAAStringSet()` from the Biostrings package.
+
+```{r identifying_tfs}
+# Annotate TF-related domains using a local installation of HMMER
+if(hmmer_is_installed()) {
+  gsu_annotation <- annotate_pfam(gsu, mode = "local")
+} else {
+  data(gsu_annotation)
+}
+
+head(gsu_annotation)
+```
+
+Now that we have our TF-related domains, we can classify TFs in families with the function `classify_tfs()`.
+
+```{r classifying_tfs}
+if(hmmer_is_installed()) {
+  gsu_families <- classify_tfs(gsu_annotation)
+} else {
+  data(gsu_families)
+}
+
+head(gsu_families)
+```
+
+
+# References

@@ -58,3 +58,19 @@
 #' @usage data(gsu_annotation)
 "gsu_annotation"
 
+
+#' TFs families of the algae species Galdieria sulphuraria
+#'  
+#' The data set was created using the funcion \code{classify_tfs()}.
+#'
+#' @name gsu_families
+#' @format A 2-column data frame with the following variables:
+#' \describe{
+#'  \item{Gene}{Gene ID}
+#'  \item{Family}{TF family}
+#'}
+#' @examples
+#' data(gsu_families)
+#' @usage data(gsu_families)
+"gsu_families"
+
