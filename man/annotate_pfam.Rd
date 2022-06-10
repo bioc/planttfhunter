@@ -15,8 +15,9 @@ represent only the translated sequences of primary (or longest) transcripts.}
 'web' (default) or 'local'. If 'local', you must have hmmer installed in
 your machine, and the command 'hmmsearch' must be in your PATH.}
 
-\item{evalue}{Numeric indicating the E-value threshold for domain annotation
-with hmmsearch. Only valid if parameter mode = 'local'. Default: 1e-05.}
+\item{evalue}{Numeric indicating the E-value threshold for hmmsearch
+to be used for domains without pre-defined domain cutoffs.
+Only valid if parameter mode = 'local'. Default: 1e-05.}
 }
 \value{
 A 2-column data frame with the variables \strong{Gene}

@@ -42,6 +42,29 @@
 "classification_scheme"
 
 
+#' Data frame of domain cutoff for each domain
+#'
+#' The cutoffs is the same as the one used by PlantTFDB. When domain cutoffs
+#' are not specified (NA), the evalue cutoff in the \strong{evalue} parameter
+#' of \code{annotate_pfam} is used.
+#' 
+#' @name score_cutoff
+#' @format A data frame with the following variables:
+#' \describe{
+#'  \item{domain}{Character with the domain name.}
+#'  \item{domaincutoff}{Numeric with the domain score cutoff.}
+#' }
+#' @references 
+#' Jin, J., Tian, F., Yang, D. C., Meng, Y. Q., Kong, L., Luo, J., & 
+#' Gao, G. (2016). PlantTFDB 4.0: toward a central hub for transcription 
+#' factors and regulatory interactions in plants. 
+#' Nucleic acids research, gkw982.
+#' @examples 
+#' data(score_cutoff)
+#' @usage data(score_cutoff)
+"score_cutoff"
+
+
 #' Domain annotation for the algae species Galdieria sulphuraria
 #'  
 #' The data set was created using the funcion \code{annotate_pfam()} in local

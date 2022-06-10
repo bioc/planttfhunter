@@ -1,5 +1,5 @@
 ---
-title: "Introduction to tfhunter"
+title: "Genome-wide identification and classification of transcription factors in plant genomes"
 author: 
   - name: Fabricio Almeida-Silva
     affiliation:
@@ -32,7 +32,14 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Transcription factors (TFs) are proteins that bind to cis-regulatory elements in promoter regions of genes and regulate their expression. Identifying them in a genome is useful for a variety of reasons, such as exploring their evolutionary history across clades and inferring gene regulatory networks. `tfhunter` allows users to identify TFs from protein sequence data and classify them into families and subfamilies (when applicable). 
+Transcription factors (TFs) are proteins that bind to cis-regulatory elements 
+in promoter regions of genes and regulate their expression. 
+Identifying them in a genome is useful for a variety of reasons, such as 
+exploring their evolutionary history across clades and 
+inferring gene regulatory networks. 
+`tfhunter` allows users to identify plant TFs from whole-genome 
+protein sequences and classify them into families 
+and subfamilies (when applicable). 
 
 # Installation
 

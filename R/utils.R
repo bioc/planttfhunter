@@ -1,4 +1,5 @@
 
+
 #' Read and parse hmmsearch output
 #'
 #' @param path Path to hmmsearch output in --domtblout format.
@@ -29,6 +30,37 @@ read_hmmsearch <- function(path = NULL) {
     stab <- NULL
   }
   return(stab)
+}
+
+#' Filter HMMER results based on domain cutoffs for each domain
+#'
+#' @param hmmer_results A data frame with HMMER results as returned 
+#' by \code{read_hmmsearch}.
+#' @param evalue Numeric indicating the E-value threshold for hmmsearch 
+#' to be used for domains without pre-defined domain cutoffs. 
+#' Only valid if parameter mode = 'local'. Default: 1e-05.
+#' 
+#' @return The same data frame passed as input, but filtered based
+#' on domain cutoffs.
+#' @noRd
+filter_hmmer <- function(hmmer_results = NULL, evalue = 1e-05) {
+    
+    cutoffs <- tfhunter::score_cutoff
+    
+    res_cutoff <- merge(hmmer_results, cutoffs,
+                        by.x = "query_name", by.y = "domain")
+    
+    # 1) Filter by domain cutoff
+    res_filt1 <- res_cutoff[!is.na(res_cutoff$domaincutoff), ]
+    res_filt1 <- res_filt1[res_filt1$domain_score >= res_filt1$domaincutoff, ]
+    
+    # 2) Filter by evalue
+    res_filt2 <- res_cutoff[is.na(res_cutoff$domaincutoff), ]
+    res_filt2 <- res_filt2[res_filt2$sequence_evalue < evalue, ]
+    
+    # Combine results
+    res_filtered <- rbind(res_filt1, res_filt2) 
+    return(res_filtered)
 }
 
 

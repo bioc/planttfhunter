@@ -14,8 +14,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R-CMD-check-bioc](https://github.com/almeidasilvaf/tfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/tfhunter/actions)
 <!-- badges: end -->
 
-The goal of `tfhunter` is to identify transcription factors from protein
-sequence data and classify them into families and subfamilies.
+The goal of `tfhunter` is to identify plant transcription factors from
+protein sequence data and classify them into families and subfamilies.
 
 ## Installation instructions
 
@@ -46,22 +46,6 @@ Please run this yourself to check for any updates on how to cite
 
 ``` r
 print(citation('tfhunter'), bibtex = TRUE)
-#> 
-#> To cite package 'tfhunter' in publications use:
-#> 
-#>   Fabrício Almeida-Silva and Yves Van de Peer (2022). tfhunter:
-#>   Identification and classification of transcription factors. R package
-#>   version 0.99.0. https://github.com/almeidasilvaf/tfhunter
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Manual{,
-#>     title = {tfhunter: Identification and classification of transcription factors},
-#>     author = {Fabrício Almeida-Silva and Yves {Van de Peer}},
-#>     year = {2022},
-#>     note = {R package version 0.99.0},
-#>     url = {https://github.com/almeidasilvaf/tfhunter},
-#>   }
 ```
 
 Please note that the `tfhunter` was only made possible thanks to many
@@ -83,7 +67,7 @@ contributing to this project, you agree to abide by its terms.
     *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
     customized to use [Bioconductor’s docker
     containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.14/BiocCheck)*.
+    *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
 -   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
@@ -97,4 +81,4 @@ contributing to this project, you agree to abide by its terms.
 For more details, check the `dev` directory.
 
 This package was developed using
-*[biocthis](https://bioconductor.org/packages/3.14/biocthis)*.
+*[biocthis](https://bioconductor.org/packages/3.15/biocthis)*.
