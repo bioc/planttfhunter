@@ -35,11 +35,11 @@ knitr::opts_chunk$set(
 Transcription factors (TFs) are proteins that bind to cis-regulatory elements 
 in promoter regions of genes and regulate their expression. 
 Identifying them in a genome is useful for a variety of reasons, such as 
-exploring their evolutionary history across clades and 
-inferring gene regulatory networks. 
-`tfhunter` allows users to identify plant TFs from whole-genome 
-protein sequences and classify them into families 
-and subfamilies (when applicable). 
+exploring their evolutionary history across clades and inferring 
+gene regulatory networks. `tfhunter` allows users to identify plant TFs 
+from whole-genome protein sequences and classify them into families 
+and subfamilies (when applicable) using the classification scheme
+implemented in [PlantTFDB](http://planttfdb.gao-lab.org/).
 
 # Installation
 

@@ -15,7 +15,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The goal of `tfhunter` is to identify plant transcription factors from
-protein sequence data and classify them into families and subfamilies.
+protein sequence data and classify them into families and subfamilies
+using the classification scheme implemented in
+[PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
 
 ## Installation instructions
 
@@ -46,6 +48,22 @@ Please run this yourself to check for any updates on how to cite
 
 ``` r
 print(citation('tfhunter'), bibtex = TRUE)
+#> 
+#> To cite package 'tfhunter' in publications use:
+#> 
+#>   Almeida-Silva F, Van de Peer Y (2022). _tfhunter: Identification and
+#>   classification of plant transcription factors_. R package version
+#>   0.99.0, <https://github.com/almeidasilvaf/tfhunter>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {tfhunter: Identification and classification of plant transcription factors},
+#>     author = {Fabrício Almeida-Silva and Yves {Van de Peer}},
+#>     year = {2022},
+#>     note = {R package version 0.99.0},
+#>     url = {https://github.com/almeidasilvaf/tfhunter},
+#>   }
 ```
 
 Please note that the `tfhunter` was only made possible thanks to many

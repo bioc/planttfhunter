@@ -23,7 +23,8 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 The goal of `tfhunter` is to identify plant transcription factors from protein 
-sequence data and classify them into families and subfamilies.
+sequence data and classify them into families and subfamilies using the
+classification scheme implemented in [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
 
 ## Installation instructions
 
