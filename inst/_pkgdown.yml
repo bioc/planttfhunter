@@ -6,3 +6,6 @@ template:
     text-muted: "#e9ecef"
     nav-link-color: "#f8f9fa"
     nav-link-hover-color: "#87b13f"
+
+navbar:
+  type: light
