@@ -1,13 +1,14 @@
 template:
   bootstrap: 5
   bslib:
-    primary: "#87b13f"
-    navbar-light-bg: "#0092ac"
-    navbar-bg: "#0092ac"
-    navbar-light-brand-color: "#f9fafb"
-    text-muted: "#e9ecef"
-    nav-link-color: "#f8f9fa"
-    nav-link-hover-color: "#87b13f"
+    font_scale: 1.1
+    primary: "#00758a"                          # navbar hover and sidebar: dark blue
+    navbar-light-bg: "#0092ac"                  # navbar bg: Bioc blue
+    navbar-bg: "#0092ac"                        # navbar bg: Bioc balue
+    navbar-light-brand-color: "#f9fafb"         # pkg name: white
+    text-muted: "#e9ecef"                       # version: light gray
+    navbar-link-color: "#f8f9fa"                # navbar pages text color: white
+    navbar-light-hover-color: "#87b13f"         # navbar text on hover: Bioc green
 
 navbar:
   bg: "#0092ac"
