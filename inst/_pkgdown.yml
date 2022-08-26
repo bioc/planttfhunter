@@ -8,7 +8,7 @@ template:
     navbar-light-brand-color: "#f9fafb"         # pkg name: white
     text-muted: "#e9ecef"                       # version: light gray
     navbar-light-link-color: "#f8f9fa"          # navbar pages text color: white
-    navbar-light-hover-color: "#c4d931"         # navbar text on hover: Bioc green
+    navbar-light-hover-color: "#87b13f"         # navbar text on hover: Bioc green
 
 navbar:
   bg: "#0092ac"
