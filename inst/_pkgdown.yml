@@ -2,6 +2,7 @@ template:
   bootstrap: 5
   bslib:
     navbar-light-bg: "#0092ac"
+    navbar-bg: "#0092ac"
     navbar-light-brand-color: "#f9fafb"
     text-muted: "#e9ecef"
     nav-link-color: "#f8f9fa"
