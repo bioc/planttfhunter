@@ -1,6 +1,7 @@
 template:
   bootstrap: 5
   bslib:
+    primary: "#87b13f"
     navbar-light-bg: "#0092ac"
     navbar-bg: "#0092ac"
     navbar-light-brand-color: "#f9fafb"
@@ -9,4 +10,5 @@ template:
     nav-link-hover-color: "#87b13f"
 
 navbar:
+  bg: "#0092ac"
   type: light
