@@ -9,7 +9,6 @@ template:
     text-muted: "#e9ecef"                       # version: light gray
     navbar-light-color: "#f8f9fa"               # navbar pages text color: white
     navbar-light-hover-color: "#87b13f"         # navbar text on hover: Bioc green
-    headings-color: "#1a81c2"
 
 navbar:
   bg: "#0092ac"

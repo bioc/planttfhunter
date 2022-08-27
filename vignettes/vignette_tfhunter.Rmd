@@ -2,11 +2,15 @@
 title: "Genome-wide identification and classification of transcription factors in plant genomes"
 author: 
   - name: Fabricio Almeida-Silva
-    affiliation:
+    affiliation: 
     - VIB-UGent Center for Plant Systems Biology, Ghent, Belgium
+    - Department of Plant Biotechnology and Bioinformatics, Ghent University, Ghent, Belgium
   - name: Yves Van de Peer
-    affiliation:
+    affiliation: 
     - VIB-UGent Center for Plant Systems Biology, Ghent, Belgium
+    - Department of Plant Biotechnology and Bioinformatics, Ghent University, Ghent, Belgium
+    - College of Horticulture, Academy for Advanced Interdisciplinary Studies, Nanjing Agricultural University, Nanjing, China
+    - Center for Microbial Ecology and Genomics, Department of Biochemistry, Genetics and Microbiology, University of Pretoria, Pretoria, South Africa
 output: 
   BiocStyle::html_document:
     self_contained: yes
