@@ -2,6 +2,8 @@ template:
   bootstrap: 5
   bslib:
     font_scale: 1.0
+    base_font:
+      google: "Atkinson Hyperlegible"           # font for better accessibility
     primary: "#18416a"                          # navbar hover and sidebar: dark blue
     navbar-light-bg: "#0092ac"                  # navbar bg: Bioc blue
     navbar-bg: "#0092ac"                        # navbar bg: Bioc blue
