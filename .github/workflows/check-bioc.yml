@@ -123,6 +123,10 @@ jobs:
           echo $sysreqs
           sudo -s eval "$sysreqs"
 
+          # Install hmmer          
+          sudo apt-get -y install hmmer
+
+
       - name: Install macOS system dependencies
         if: matrix.config.os == 'macOS-latest'
         run: |
