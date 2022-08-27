@@ -137,18 +137,18 @@ check_c2c2 <- function(domains = NULL) {
 #' different family.
 #' @noRd
 check_garp <- function(domains = NULL) {
-  len_g2like <- length(domains[domains == "G2-like"])
-  len_resp_rep <- length(domains[domains == "PF00072"])
-  
-  if(len_g2like != 0 & len_resp_rep != 0) {
-    fam <- "ARR-B"
-  } else if(len_g2like != 0 & len_resp_rep == 0) {
-    fam <- "G2-like"
-  } else {
-    fam <- NULL
-  }
-  
-  return(fam)
+    len_g2like <- length(domains[domains == "G2-like"])
+    len_resp_rep <- length(domains[domains == "PF00072"])
+    
+    if(len_g2like != 0 & len_resp_rep != 0) {
+        fam <- "ARR-B"
+    } else if(len_g2like != 0 & len_resp_rep == 0) {
+        fam <- "G2-like"
+    } else {
+        fam <- NULL
+    }
+    
+    return(fam)
 }
 
 
@@ -160,30 +160,35 @@ check_garp <- function(domains = NULL) {
 #' different family.
 #' @noRd
 check_hb <- function(domains = NULL) {
-  len_homeobox <- length(domains[domains == "PF00046"])
-  len_hdzip <- length(domains[domains == "HD-ZIP_I/II"])
-  len_smart <- length(domains[domains == "PF01852"])
-  len_elk <- length(domains[domains == "PF03789"])
-  len_wox <- length(domains[domains == "Wus_type_Homeobox"])
-  len_phd <- length(domains[domains == "PF00628"])
-  only_homeobox <- unique(domains)
-  only_homeobox <- length(only_homeobox) == 1 & "PF00046" %in% only_homeobox
-  
-  if(len_homeobox != 0 & len_hdzip != 0) {
-    fam <- "HD-ZIP"
-  } else if(len_homeobox != 0 & len_smart != 0) {
-    fam <- "HD-ZIP"
-  } else if(len_homeobox != 0 & len_elk != 0) {
-    fam <- "TALE"
-  } else if(len_homeobox != 0 & len_wox != 0) {
-    fam <- "WOX"
-  } else if(only_homeobox) {
-    fam <- "HB-other"
-  } else {
-    fam <- NULL
-  }
-  
-  return(fam)
+    len_homeobox <- length(domains[domains == "PF00046"])
+    len_hdzip <- length(domains[domains == "HD-ZIP_I/II"])
+    len_smart <- length(domains[domains == "PF01852"])
+    len_elk <- length(domains[domains == "PF03789"])
+    len_bell <- length(domains[domains == "BELL"])
+    len_wox <- length(domains[domains == "Wus_type_Homeobox"])
+    len_phd <- length(domains[domains == "PF00628"])
+    only_homeobox <- unique(domains)
+    only_homeobox <- length(only_homeobox) == 1 & "PF00046" %in% only_homeobox
+    
+    if(len_homeobox != 0 & len_hdzip != 0) {
+        fam <- "HD-ZIP"
+    } else if(len_homeobox != 0 & len_smart != 0) {
+        fam <- "HD-ZIP"
+    } else if(len_homeobox != 0 & len_elk != 0) {
+        fam <- "TALE"
+    } else if(len_homeobox != 0 & len_bell != 0) {
+        fam <- "TALE"
+    } else if(len_homeobox != 0 & len_wox != 0) {
+        fam <- "WOX"
+    } else if(len_homeobox != 0 & len_phd != 0) {
+        fam <- "HB-PHD"
+    } else if(only_homeobox) {
+        fam <- "HB-other"
+    } else {
+        fam <- NULL
+    }
+    
+    return(fam)
 }
 
 
@@ -195,18 +200,18 @@ check_hb <- function(domains = NULL) {
 #' different family.
 #' @noRd
 check_mads <- function(domains = NULL) {
-  len_srf_tf <- length(domains[domains == "PF00319"])
-  len_kbox <- length(domains[domains == "PF01486"])
-  
-  if(len_srf_tf != 0 & len_kbox == 0) {
-    fam <- "M-type"
-  } else if(len_srf_tf != 0 & len_kbox != 0) {
-    fam <- "MIKC"
-  } else {
-    fam <- NULL
-  }
-  
-  return(fam)
+    len_srf_tf <- length(domains[domains == "PF00319"])
+    len_kbox <- length(domains[domains == "PF01486"])
+    
+    if(len_srf_tf != 0 & len_kbox == 0) {
+        fam <- "M-type"
+    } else if(len_srf_tf != 0 & len_kbox != 0) {
+        fam <- "MIKC"
+    } else {
+        fam <- NULL
+    }
+    
+    return(fam)
 }
 
 
@@ -218,18 +223,18 @@ check_mads <- function(domains = NULL) {
 #' different family.
 #' @noRd
 check_myb <- function(domains = NULL) {
-  len_myb <- length(domains[domains == "PF00249"])
-  len_swirm <- length(domains[domains == "PF04433"])
-  
-  if(len_myb == 1 & len_swirm == 0) {
-    fam <- "MYB-related"
-  } else if(len_myb > 1 & len_swirm == 0) {
-    fam <- "MYB"
-  } else {
-    fam <- NULL
-  }
-  
-  return(fam)
+    len_myb <- length(domains[domains == "PF00249"])
+    len_swirm <- length(domains[domains == "PF04433"])
+    
+    if(len_myb == 1 & len_swirm == 0) {
+        fam <- "MYB-related"
+    } else if(len_myb > 1 & len_swirm == 0) {
+        fam <- "MYB"
+    } else {
+        fam <- NULL
+    }
+    
+    return(fam)
 }
 
 
@@ -241,21 +246,21 @@ check_myb <- function(domains = NULL) {
 #' different family.
 #' @noRd
 check_nf_y <- function(domains = NULL) {
-  len_cbfb_nfya <- length(domains[domains == "PF02045"])
-  len_nf_yb <- length(domains[domains == "NF-YB"])
-  len_nf_yc <- length(domains[domains == "NF-YC"])
-  
-  if(len_cbfb_nfya != 0) {
-    fam <- "NF-YA"
-  } else if(len_nf_yb != 0) {
-    fam <- "NF-YB"
-  } else if(len_nf_yc != 0) {
-    fam <- "NF-YC"
-  } else {
-    fam <- NULL
-  }
-  
-  return(fam)
+    len_cbfb_nfya <- length(domains[domains == "PF02045"])
+    len_nf_yb <- length(domains[domains == "NF-YB"])
+    len_nf_yc <- length(domains[domains == "NF-YC"])
+    
+    if(len_cbfb_nfya != 0) {
+        fam <- "NF-YA"
+    } else if(len_nf_yb != 0) {
+        fam <- "NF-YB"
+    } else if(len_nf_yc != 0) {
+        fam <- "NF-YC"
+    } else {
+        fam <- NULL
+    }
+    
+    return(fam)
 }
 
 
@@ -267,82 +272,82 @@ check_nf_y <- function(domains = NULL) {
 #' different family.
 #' @noRd
 check_smallfams <- function(domains = NULL) {
-  count <- function(x) { return(length(domains[domains == x])) }
-  
-  if(count("PF06217") != 0) { # GAGA_bind
-    fam <- "BBR-BPC"
-  } else if(count("PF05687") != 0) { # DUF822
-    fam <- "BES1"
-  } else if(count("PF00010") != 0) { # HLH
-    fam <- "bHLH"
-  } else if(count("PF00170") != 0) { # bZIP_1
-    fam <- "bZIP"
-  } else if(count("PF00096") != 0 & count("PF00929") == 0) { # zf-C2H2, RNase_T
-    fam <- "C2H2"
-  } else if(count("PF00642") != 0 & count("PF00076") == 0) { # zf-CCCH, RRM_1
-    fam <- "C3H"
-  } else if(count("PF00642") != 0 & count("PF00271") == 0) { # ., Helicase_C
-    fam <- "C3H"
-  } else if(count("PF03859") != 0) { # CG1
-    fam <- "CAMTA"
-  } else if(count("PF03638") != 0) { # TCR
-    fam <- "CPP"
-  } else if(count("PF00643") > 1) { # zf-B_box
-    fam <- "DBB"
-  } else if(count("PF02319") != 0) { # E2F_TDP
-    fam <- "E2F/DP"
-  } else if(count("PF04873") != 0) { # EIN3
-    fam <- "EIL"
-  } else if(count("PF03101") != 0) { # FAR1
-    fam <- "FAR1"
-  } else if(count("PF04504") != 0) { # DUF573
-    fam <- "GeBP"
-  } else if(count("PF03514") != 0) { # GRAS
-    fam <- "GRAS"
-  } else if(count("PF08879") != 0 & count("PF08880")) { # WRC, QLQ
-    fam <- "GRF"
-  } else if(count("HRT-like") != 0) { # HRT-like, self-built
-    fam <- "HRT-like"
-  } else if(count("PF00447") != 0) { # HSF_dna_bind
-    fam <- "HSF"
-  } else if(count("PF03195") != 0) { # DUF260
-    fam <- "LBD"
-  } else if(count("PF01698") != 0) { # FLO_LFY
-    fam <- "LFY"
-  } else if(count("PF02365") != 0) { # NAM
-    fam <- "NAC"
-  } else if(count("PF01422") != 0) { # zf-NF-X1
-    fam <- "NF-X1"
-  } else if(count("PF02042") != 0) { # RWP-RK
-    fam <- "Nin-like"
-  } else if(count("PF08744") != 0) { # NOZZLE
-    fam <- "NZZ/SPL"
-  } else if(count("PF04689") != 0) { # S1FA
-    fam <- "S1Fa-like"
-  } else if(count("SAP") != 0) { # SAP
-    fam <- "SAP"
-  } else if(count("PF03110") != 0) { # SBP
-    fam <- "SBP"
-  } else if(count("PF05142") != 0) { # DUF702
-    fam <- "SRS"
-  } else if(count("STAT") != 0) { # STAT
-    fam <- "STAT"
-  } else if(count("PF03634") != 0) { # TCP
-    fam <- "TCP"
-  } else if(count("trihelix") != 0) { # Trihelix
-    fam <- "Trihelix"
-  } else if(count("VOZ") != 0) { # VOZ
-    fam <- "VOZ"
-  } else if(count("PF08536") != 0) { # Whirly
-    fam <- "Whirly"
-  } else if(count("PF03106") != 0) { # WRKY
-    fam <- "WRKY"
-  } else if(count("PF04770") != 0) { # ZF-HD_dimer
-    fam <- "ZF-HD"
-  } else {
-    fam <- NULL
-  }
-  return(fam)
+    count <- function(x) { return(length(domains[domains == x])) }
+    
+    if(count("PF06217") != 0) { # GAGA_bind
+        fam <- "BBR-BPC"
+    } else if(count("PF05687") != 0) { # DUF822
+        fam <- "BES1"
+    } else if(count("PF00010") != 0) { # HLH
+        fam <- "bHLH"
+    } else if(count("PF00170") != 0) { # bZIP_1
+        fam <- "bZIP"
+    } else if(count("PF00096") != 0 & count("PF00929") == 0) { # zf-C2H2, RNase_T
+        fam <- "C2H2"
+    } else if(count("PF00642") != 0 & count("PF00076") == 0) { # zf-CCCH, RRM_1
+        fam <- "C3H"
+    } else if(count("PF00642") != 0 & count("PF00271") == 0) { # ., Helicase_C
+        fam <- "C3H"
+    } else if(count("PF03859") != 0) { # CG1
+        fam <- "CAMTA"
+    } else if(count("PF03638") != 0) { # TCR
+        fam <- "CPP"
+    } else if(count("PF00643") > 1) { # zf-B_box
+        fam <- "DBB"
+    } else if(count("PF02319") != 0) { # E2F_TDP
+        fam <- "E2F/DP"
+    } else if(count("PF04873") != 0) { # EIN3
+        fam <- "EIL"
+    } else if(count("PF03101") != 0) { # FAR1
+        fam <- "FAR1"
+    } else if(count("PF04504") != 0) { # DUF573
+        fam <- "GeBP"
+    } else if(count("PF03514") != 0) { # GRAS
+        fam <- "GRAS"
+    } else if(count("PF08879") != 0 & count("PF08880") != 0) { # WRC, QLQ
+        fam <- "GRF"
+    } else if(count("HRT-like") != 0) { # HRT-like, self-built
+        fam <- "HRT-like"
+    } else if(count("PF00447") != 0) { # HSF_dna_bind
+        fam <- "HSF"
+    } else if(count("PF03195") != 0) { # DUF260
+        fam <- "LBD"
+    } else if(count("PF01698") != 0) { # FLO_LFY
+        fam <- "LFY"
+    } else if(count("PF02365") != 0) { # NAM
+        fam <- "NAC"
+    } else if(count("PF01422") != 0) { # zf-NF-X1
+        fam <- "NF-X1"
+    } else if(count("PF02042") != 0) { # RWP-RK
+        fam <- "Nin-like"
+    } else if(count("PF08744") != 0) { # NOZZLE
+        fam <- "NZZ/SPL"
+    } else if(count("PF04689") != 0) { # S1FA
+        fam <- "S1Fa-like"
+    } else if(count("SAP") != 0) { # SAP
+        fam <- "SAP"
+    } else if(count("PF03110") != 0) { # SBP
+        fam <- "SBP"
+    } else if(count("PF05142") != 0) { # DUF702
+        fam <- "SRS"
+    } else if(count("STAT") != 0) { # STAT
+        fam <- "STAT"
+    } else if(count("PF03634") != 0) { # TCP
+        fam <- "TCP"
+    } else if(count("trihelix") != 0) { # Trihelix
+        fam <- "Trihelix"
+    } else if(count("VOZ") != 0) { # VOZ
+        fam <- "VOZ"
+    } else if(count("PF08536") != 0) { # Whirly
+        fam <- "Whirly"
+    } else if(count("PF03106") != 0) { # WRKY
+        fam <- "WRKY"
+    } else if(count("PF04770") != 0) { # ZF-HD_dimer
+        fam <- "ZF-HD"
+    } else {
+        fam <- NULL
+    }
+    return(fam)
 }
 
 

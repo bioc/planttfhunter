@@ -64,6 +64,7 @@ usethis::use_github_actions_badge("R-CMD-check-bioc")
 ## Enable using tests
 usethis::use_testthat()
 usethis::use_test("tf_identification") ## You need at least one test to run covr
+usethis::use_test("utils")
 usethis::use_coverage()
 
 ## Re-knit your README.Rmd file to update your README.md file
