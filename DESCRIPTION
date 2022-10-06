@@ -37,6 +37,7 @@ biocViews: Software,
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
+SystemRequirements: HMMER <http://hmmer.org/>
 Imports:
     Biostrings,
     utils

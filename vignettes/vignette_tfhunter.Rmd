@@ -108,7 +108,7 @@ them into an `AAStringSet` object with the function `readAAStringSet()` from
 the `r BiocStyle::Biocpkg("Biostrings")` package.
 
 ```{r identifying_tfs}
-data("gsu_annotation")
+data(gsu_annotation)
 
 # Annotate TF-related domains using a local installation of HMMER
 if(hmmer_is_installed()) {
@@ -132,6 +132,9 @@ if(hmmer_is_installed()) {
 
 # Take a look at the output
 head(gsu_families)
+
+# Count number of TFs per family
+table(gsu_families$Family)
 ```
 
 # Session information {.unnumbered}
