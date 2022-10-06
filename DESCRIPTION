@@ -40,7 +40,9 @@ RoxygenNote: 7.2.0
 SystemRequirements: HMMER <http://hmmer.org/>
 Imports:
     Biostrings,
-    utils
+    SummarizedExperiment,
+    utils,
+    methods
 Suggests: 
     BiocStyle,
     covr,

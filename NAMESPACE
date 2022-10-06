@@ -2,6 +2,9 @@
 
 export(annotate_pfam)
 export(classify_tfs)
+export(get_tf_counts)
 export(hmmer_is_installed)
 importFrom(Biostrings,writeXStringSet)
+importFrom(SummarizedExperiment,SummarizedExperiment)
+importFrom(methods,is)
 importFrom(utils,read.csv)
