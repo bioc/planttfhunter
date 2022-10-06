@@ -2,6 +2,7 @@
 #----Load data------------------------------------------------------------------
 set.seed(123)
 data(gsu)
+data(tf_counts)
 
 # Pick random subsets of 100 genes to simulate other species
 proteomes <- list(
@@ -22,8 +23,11 @@ species_metadata <- data.frame(
 #----Start tests----------------------------------------------------------------
 test_that("get_tf_counts() returns a SummarizedExperiment object", {
     
-    se <- get_tf_counts(proteomes, species_metadata)
-    
+    se <- tf_counts
+    if(hmmer_is_installed()) {
+        se <- get_tf_counts(proteomes, species_metadata)
+    }
+
     expect_error(
         get_tf_counts(proteomes = data.frame(), species_metadata)
     )

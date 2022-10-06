@@ -40,7 +40,9 @@
 #' )
 #' 
 #' # Get SummarizedExperiment object
-#' se <- get_tf_counts(proteomes, species_metadata)
+#' if(hmmer_is_installed()) {
+#'     se <- get_tf_counts(proteomes, species_metadata)
+#' }
 get_tf_counts <- function(proteomes, species_metadata = NULL) {
     
     # Check 1: is `proteomes` a list of AAStringSet objects?

@@ -45,5 +45,7 @@ species_metadata <- data.frame(
 )
 
 # Get SummarizedExperiment object
-se <- get_tf_counts(proteomes, species_metadata)
+if(hmmer_is_installed()) {
+    se <- get_tf_counts(proteomes, species_metadata)
+}
 }
