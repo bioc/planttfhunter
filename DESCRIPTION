@@ -19,7 +19,7 @@ Description: tfhunter is used to identify plant transcription factors (TFs)
     from protein sequence data and classify them into families and subfamilies
     using the classification scheme implemented in PlantTFDB.
     TFs are identified and classified using profile hidden Markov models
-    for known TF families available on the PFAM database or using pre-built
+    for known TF families available on the PFAM database and using pre-built
     .hmm files that come with this package.
 License: GPL-3
 URL: https://github.com/almeidasilvaf/tfhunter
@@ -36,7 +36,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Imports:
     Biostrings,
-    bio3d,
     utils
 Suggests: 
     BiocStyle,
@@ -47,5 +46,5 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: 
-    R (>= 4.1.0)
+    R (>= 4.2.0)
 LazyData: true

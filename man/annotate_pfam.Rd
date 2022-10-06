@@ -4,16 +4,12 @@
 \alias{annotate_pfam}
 \title{Annotate proteins sequences with PFAM domains}
 \usage{
-annotate_pfam(seq = NULL, mode = "web", evalue = 1e-05)
+annotate_pfam(seq = NULL, evalue = 1e-05)
 }
 \arguments{
 \item{seq}{An AAStringSet object as returned
 by \code{Biostrings::readAAStringSet()}. The sequences in this object must
 represent only the translated sequences of primary (or longest) transcripts.}
-
-\item{mode}{Character specifying how to annotate PFAM domains. One of
-'web' (default) or 'local'. If 'local', you must have hmmer installed in
-your machine, and the command 'hmmsearch' must be in your PATH.}
 
 \item{evalue}{Numeric indicating the E-value threshold for hmmsearch
 to be used for domains without pre-defined domain cutoffs.
@@ -29,5 +25,7 @@ PFAM domains are assigned to each sequence using HMMER.
 \examples{
 data(gsu)
 seq <- gsu[1:5]
-annotate_pfam(seq)
+if(hmmer_is_installed()) {
+    annotate_pfam(seq)
+}
 }

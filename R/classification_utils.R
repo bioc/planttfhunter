@@ -272,7 +272,10 @@ check_nf_y <- function(domains = NULL) {
 #' different family.
 #' @noRd
 check_smallfams <- function(domains = NULL) {
+    
     count <- function(x) { return(length(domains[domains == x])) }
+    
+    no_c3h_forbidden <- count("PF00076") == 0 & count("PF00271") == 0
     
     if(count("PF06217") != 0) { # GAGA_bind
         fam <- "BBR-BPC"
@@ -284,9 +287,7 @@ check_smallfams <- function(domains = NULL) {
         fam <- "bZIP"
     } else if(count("PF00096") != 0 & count("PF00929") == 0) { # zf-C2H2, RNase_T
         fam <- "C2H2"
-    } else if(count("PF00642") != 0 & count("PF00076") == 0) { # zf-CCCH, RRM_1
-        fam <- "C3H"
-    } else if(count("PF00642") != 0 & count("PF00271") == 0) { # ., Helicase_C
+    } else if(count("PF00642") != 0 & no_c3h_forbidden) { 
         fam <- "C3H"
     } else if(count("PF03859") != 0) { # CG1
         fam <- "CAMTA"

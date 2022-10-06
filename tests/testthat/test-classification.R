@@ -131,7 +131,7 @@ test_that("check_smallfams() returns domain classification", {
     ct <- check_smallfams("PF00010")
     ct2 <- check_smallfams("PF06217")
     ct3 <- check_smallfams("PF05687")
-    ct4 <- check_smallfams(c("PF00642", "PF00271"))
+    ct4 <- check_smallfams("PF00642")
     ct5 <- check_smallfams("PF03859")
     ct6 <- check_smallfams(rep("PF00643", 2))
     ct7 <- check_smallfams("PF04873")
