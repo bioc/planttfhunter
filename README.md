@@ -8,7 +8,7 @@
 [![GitHub
 issues](https://img.shields.io/github/issues/almeidasilvaf/tfhunter)](https://github.com/almeidasilvaf/tfhunter/issues)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check-bioc](https://github.com/almeidasilvaf/tfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/tfhunter/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/almeidasilvaf/tfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/tfhunter?branch=master)
@@ -66,9 +66,9 @@ print(citation('tfhunter'), bibtex = TRUE)
 #>   }
 ```
 
-Please note that the `tfhunter` was only made possible thanks to many
-other R and bioinformatics software authors, which are cited either in
-the vignettes and/or the paper(s) describing this package.
+Please note that the `tfhunter` project was only made possible thanks to
+many other R and bioinformatics software authors, which are cited either
+in the vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 

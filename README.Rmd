@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![GitHub issues](https://img.shields.io/github/issues/almeidasilvaf/tfhunter)](https://github.com/almeidasilvaf/tfhunter/issues)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check-bioc](https://github.com/almeidasilvaf/tfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/tfhunter/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/almeidasilvaf/tfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/tfhunter?branch=master)
@@ -25,11 +25,14 @@ coverage](https://codecov.io/gh/almeidasilvaf/tfhunter/branch/master/graph/badge
 
 The goal of `tfhunter` is to identify plant transcription factors from protein 
 sequence data and classify them into families and subfamilies using the
-classification scheme implemented in [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
+classification scheme implemented 
+in [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
 
 ## Installation instructions
 
-Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). Then install `tfhunter` from [Bioconductor](http://bioconductor.org/) using the following code:
+Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). 
+Then install `tfhunter` from [Bioconductor](http://bioconductor.org/) 
+using the following code:
 
 ```{r 'install', eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -39,7 +42,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 BiocManager::install("tfhunter")
 ```
 
-And the development version from [GitHub](https://github.com/almeidasilvaf/tfhunter) with:
+And the development version from 
+[GitHub](https://github.com/almeidasilvaf/tfhunter) with:
 
 ```{r 'install_dev', eval = FALSE}
 BiocManager::install("almeidasilvaf/tfhunter")
@@ -54,7 +58,9 @@ run this yourself to check for any updates on how to cite __tfhunter__.
 print(citation('tfhunter'), bibtex = TRUE)
 ```
 
-Please note that the `tfhunter` was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.
+Please note that the `tfhunter` project was only made possible thanks to many 
+other R and bioinformatics software authors, which are cited either in the 
+vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 

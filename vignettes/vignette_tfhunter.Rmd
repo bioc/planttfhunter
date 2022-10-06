@@ -18,7 +18,7 @@ output:
 date: "`r Sys.Date()`"
 bibliography: vignette_bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{Introduction to tfhunter}
+  %\VignetteIndexEntry{Genome-wide identification and classification of transcription factors in plant genomes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
 ---
@@ -38,14 +38,15 @@ Transcription factors (TFs) are proteins that bind to cis-regulatory elements
 in promoter regions of genes and regulate their expression. 
 Identifying them in a genome is useful for a variety of reasons, such as 
 exploring their evolutionary history across clades and inferring 
-gene regulatory networks. `tfhunter` allows users to identify plant TFs 
-from whole-genome protein sequences and classify them into families 
-and subfamilies (when applicable) using the classification scheme
-implemented in [PlantTFDB](http://planttfdb.gao-lab.org/).
+gene regulatory networks. `r BiocStyle::Githubpkg("almeidasilvaf/tfhunter")` 
+allows users to identify plant TFs from whole-genome protein sequences and 
+classify them into families and subfamilies (when applicable) using the 
+classification scheme implemented in [PlantTFDB](http://planttfdb.gao-lab.org/).
 
 # Installation
 
-You can install `tfhunter` with the following code:
+You can install `r BiocStyle::Githubpkg("almeidasilvaf/tfhunter")` 
+with the following code:
 
 ```{r "install", eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -55,13 +56,19 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 BiocManager::install("tfhunter")
 ```
 
+Loading package after installation:
+
 ```{r load_package}
 library(tfhunter)
 ```
 
 # Data description
 
-In this vignette, we will use protein sequences of TFs from the algae species *Galdieria sulphuraria* as an example. The proteome file was downloaded from the PLAZA Diatoms database [@osuna2020seminavis], and it was filtered to keep only TFs for demonstration purposes. The object `gsu` stores the protein sequences in an AAStringSet object.
+In this vignette, we will use protein sequences of TFs from the algae 
+species *Galdieria sulphuraria* as an example. The proteome file was 
+downloaded from the PLAZA Diatoms database [@osuna2020seminavis], and 
+it was filtered to keep only TFs for demonstration purposes. 
+The object `gsu` stores the protein sequences in an `AAStringSet` object.
 
 ```{r data}
 data(gsu)
@@ -71,7 +78,10 @@ gsu
 
 # Algorithm description
 
-TF identification and classification is based on the presence of signature protein domains, which are identified using profile hidden Markov models (HMMs). The family classification scheme is the same as the one used by PlantTFDB [@jin2016planttfdb], and it is summarized below: [^1]
+TF identification and classification is based on the presence of signature 
+protein domains, which are identified using profile hidden Markov models (HMMs). 
+The family classification scheme is the same as the one used by 
+PlantTFDB [@jin2016planttfdb], and it is summarized below: [^1]
 
 ```{r scheme, echo = FALSE}
 data(classification_scheme)
@@ -79,13 +89,23 @@ knitr::kable(classification_scheme)
 ```
 
 
-[^1]: **Tip:** You can access this classification scheme in your R session by loading the data frame `data(classification_scheme)`.
+[^1]: **Tip:** You can access this classification scheme in your R session by 
+loading the data frame `data(classification_scheme)`.
 
 # Identifying and classifying TFs
 
-To identify TFs from protein sequence data, you will use the function `annotate_pfam()`. This function takes as input an AAStringSet object [^2] and returns a data frame of protein domains associated with each sequence. The HMMER program [@finn2011hmmer] is used to scan protein sequences for the presence of TF-related protein domains, and it can be run either through the web server (by setting `mode = web`) or through a local HMMER installation (`mode = "local"`). We advise you to install HMMER in your machine and set `mode = "local"`, as domain annotation with the web server can take several minutes, especially for large proteomes.
+To identify TFs from protein sequence data, you will use the 
+function `annotate_pfam()`. This function takes as input an `AAStringSet` 
+object [^2] and returns a data frame of protein domains associated with 
+each sequence. The HMMER program [@finn2011hmmer] is used to scan protein 
+sequences for the presence of DNA-binding protein domains, as well as
+auxiliary and forbidden domains. Pre-built HMM profiles can be found in the
+*extdata/* directory of this package.
 
-[^2]: **Tip:** If you have protein sequences in a FASTA file, you can read them into an AAStringSet object with the function `readAAStringSet()` from the Biostrings package.
+
+[^2]: **Tip:** If you have protein sequences in a FASTA file, you can read 
+them into an `AAStringSet` object with the function `readAAStringSet()` from 
+the `r BiocStyle::Biocpkg("Biostrings")` package.
 
 ```{r identifying_tfs}
 data("gsu_annotation")
@@ -99,12 +119,13 @@ if(hmmer_is_installed()) {
 head(gsu_annotation)
 ```
 
-Now that we have our TF-related domains, we can classify TFs in families with the function `classify_tfs()`.
+Now that we have our TF-related domains, we can classify TFs in families 
+with the function `classify_tfs()`.
 
 ```{r classifying_tfs}
 data(gsu_families)
 
-# Classify TFs into families and subfamilies
+# Classify TFs into families
 if(hmmer_is_installed()) {
   gsu_families <- classify_tfs(gsu_annotation)
 } 
@@ -113,5 +134,13 @@ if(hmmer_is_installed()) {
 head(gsu_families)
 ```
 
+# Session information {.unnumbered}
 
-# References
+This document was created under the following conditions:
+
+```{r session_info}
+sessioninfo::session_info()
+```
+
+# References {.unnumbered}
+
