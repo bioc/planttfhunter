@@ -65,7 +65,8 @@ library(tfhunter)
 # Data description
 
 In this vignette, we will use protein sequences of TFs from the algae 
-species *Galdieria sulphuraria* as an example. The proteome file was 
+species *Galdieria sulphuraria* as an example, as its proteome is
+very small. The proteome file was 
 downloaded from the PLAZA Diatoms database [@osuna2020seminavis], and 
 it was filtered to keep only TFs for demonstration purposes. 
 The object `gsu` stores the protein sequences in an `AAStringSet` object.
@@ -149,14 +150,14 @@ class, you should consider checking the vignettes of the
 
 
 To demonstrate how `get_tf_counts()` works, we will simulate a 
-list of 5 `AAStringSet` objects by sampling 100 random genes from the example
-data set `gsu` 5 times. We will also create a toy species metadata data frame
+list of 4 `AAStringSet` objects by sampling 100 random genes from the example
+data set `gsu` 4 times. We will also create a toy species metadata data frame
 for each "species" (simulated).
 
 ```{r simulate_data_proteomes}
 set.seed(123) # for reproducibility
 
-# Simulate 5 different species by sampling 100 random genes from `gsu`
+# Simulate 4 different species by sampling 100 random genes from `gsu`
 proteomes <- list(
     Gsu1 = gsu[sample(names(gsu), 50, replace = FALSE)],
     Gsu2 = gsu[sample(names(gsu), 50, replace = FALSE)],
@@ -166,7 +167,7 @@ proteomes <- list(
 proteomes
 ```
 
-Great, now we have a list of 5 `AAStringSet` objects. Let's also create a 
+Great, now we have a list of 4 `AAStringSet` objects. Let's also create a 
 simulated species metadata data frame for each "species" (simulated).
 
 ```{r simulate_data_species_metadata}

@@ -75,7 +75,7 @@
 "gsu_families"
 
 
-#' TF counts per family in 5 simulated species
+#' TF counts per family in 4 simulated species
 #' 
 #' Simulated species were created by sampling 100 genes from the example
 #' data set \strong{gsu} with after \code{set.seed(123)}.

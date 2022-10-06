@@ -3,7 +3,7 @@
 \docType{data}
 \name{tf_counts}
 \alias{tf_counts}
-\title{TF counts per family in 5 simulated species}
+\title{TF counts per family in 4 simulated species}
 \format{
 A SummarizedExperiment with TF frequencies per family in each
 species in \strong{assay} and species metadata in \strong{colData}.
