@@ -189,8 +189,12 @@ Now that we have a list of `AAStringSet` objects and species metadata, we
 can execute `get_tf_counts()` as below:
 
 ```{r get_tf_counts}
+data(tf_counts)
+
 # Get TF counts per family in each species as a SummarizedExperiment object
-tf_counts <- get_tf_counts(proteomes, species_metadata)
+if(hmmer_is_installed()) {
+    tf_counts <- get_tf_counts(proteomes, species_metadata)
+}
 
 # Take a look at the SummarizedExperiment object
 tf_counts

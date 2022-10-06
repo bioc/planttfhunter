@@ -75,6 +75,35 @@ gsu_families <- classify_tfs(gsu_annotation)
 usethis::use_data(gsu_families, compress = "xz", overwrite = TRUE)
 ```
 
+## tf_counts.rda
+
+This data set contains a `SummarizedExperiment` of motif counts for each
+family in simulated species.
+
+``` r
+data(gsu)
+set.seed(123) # for reproducibility
+
+# Simulate 5 different species by sampling 100 random genes from `gsu`
+proteomes <- list(
+    Gsu1 = gsu[sample(names(gsu), 50, replace = FALSE)],
+    Gsu2 = gsu[sample(names(gsu), 50, replace = FALSE)],
+    Gsu3 = gsu[sample(names(gsu), 50, replace = FALSE)],
+    Gsu4 = gsu[sample(names(gsu), 50, replace = FALSE)]
+)
+
+# Create simulated species metadata
+species_metadata <- data.frame(
+    row.names = names(proteomes),
+    Division = "Rhodophyta",
+    Origin = c("US", "Belgium", "China", "Brazil")
+)
+
+tf_counts <- get_tf_counts(proteomes, species_metadata)
+
+usethis::use_data(tf_counts, compress = "xz")
+```
+
 # Data in inst/extdata
 
 ## \*.hmm files (profile HMMs)

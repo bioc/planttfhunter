@@ -74,3 +74,17 @@
 #' @usage data(gsu_families)
 "gsu_families"
 
+
+#' TF counts per family in 5 simulated species
+#' 
+#' Simulated species were created by sampling 100 genes from the example
+#' data set \strong{gsu} with after \code{set.seed(123)}.
+#' 
+#' @name tf_counts 
+#' @format A SummarizedExperiment with TF frequencies per family in each 
+#' species in \strong{assay} and species metadata in \strong{colData}. 
+#' @examples
+#' data(tf_counts)
+#' @usage data(tf_counts)
+"tf_counts"
+
