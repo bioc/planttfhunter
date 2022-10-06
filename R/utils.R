@@ -45,7 +45,7 @@ read_hmmsearch <- function(path = NULL) {
 #' @noRd
 filter_hmmer <- function(hmmer_results = NULL, evalue = 1e-05) {
     
-    cutoffs <- tfhunter::score_cutoff
+    cutoffs <- score_cutoff
     
     res_cutoff <- merge(hmmer_results, cutoffs,
                         by.x = "query_name", by.y = "domain")

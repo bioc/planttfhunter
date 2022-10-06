@@ -29,7 +29,7 @@ usethis::use_data(
 )
 ```
 
-## gsu_pfam.rda
+## gsu_annotation.rda
 
 ``` r
 data(gsu)
@@ -67,47 +67,12 @@ usethis::use_data(classification_scheme,
                   compress = "xz", overwrite = TRUE)
 ```
 
-## score_cutoff.rda
-
-This data frame contains the sequence and domain cutoff for each family.
-The values were retrieved from the Supplementary Materials of the
-PlantTFDB v2 paper.
-
-``` r
-library(here)
-
-# Create a list of PFAM domains
-pfam_domains <- readLines(here("inst", "extdata", "PFAM.hmm"))
-pfam_domains <- pfam_domains[grep("^NAME", pfam_domains)]
-pfam_domains <- gsub(".*PF", "PF", pfam_domains)
-    
-# Create a list of self-built domains
-selfbuilt <- readLines(here("inst", "extdata", "self_built.hmm"))
-selfbuilt <- selfbuilt[grep("^NAME", selfbuilt)]
-selfbuilt <- gsub("NAME  ", "", selfbuilt)
-    
-
-score_cutoff <- data.frame(domain = c(pfam_domains, selfbuilt))
-
-score_cutoff$domaincutoff <- c(
-    11, 15, 20, NA, 12.2, 19.7, 21.5, NA, 21, 22, # 1:10
-    22.5, NA, 17, 16, NA, NA, NA, 16, NA, 20.7, # 11:20
-    NA, 20.8, 22, 23, 30.2, 21.5, 26, 150, 21.3, 22, # 21:30
-    23, 22, 20.5, 21, 20.9, NA, 25, NA, 29.5, 22, # 31:40
-    21, 20.5, 22, 21.3, 25, NA, 23, NA, 20.2, 20.2, # 41:50
-    20.2, 21.3, NA, 20, 24, 27, 24, 50, 150, 100, # 51:60
-    NA, NA, NA, 16
-)
-
-usethis::use_data(score_cutoff, compress = "xz", overwrite = TRUE)
-```
-
 ## gsu_families.rda
 
 ``` r
 gsu_families <- classify_tfs(gsu_annotation)
 
-usethis::use_data(gsu_families, compress = "xz")
+usethis::use_data(gsu_families, compress = "xz", overwrite = TRUE)
 ```
 
 # Data in inst/extdata
@@ -214,4 +179,39 @@ combine_domains <- function() {
 combine_domains()
 fs::file_move(path = file.path(tempdir(), "PFAM.hmm"),
               new_path = here::here("inst", "extdata", "PFAM.hmm"))
+```
+
+# Internal data (sysdata.rda)
+
+This data frame contains the sequence and domain cutoff for each family.
+The values were retrieved from the Supplementary Materials of the
+PlantTFDB v2 paper.
+
+``` r
+library(here)
+
+# Create a list of PFAM domains
+pfam_domains <- readLines(here("inst", "extdata", "PFAM.hmm"))
+pfam_domains <- pfam_domains[grep("^NAME", pfam_domains)]
+pfam_domains <- gsub(".*PF", "PF", pfam_domains)
+    
+# Create a list of self-built domains
+selfbuilt <- readLines(here("inst", "extdata", "self_built.hmm"))
+selfbuilt <- selfbuilt[grep("^NAME", selfbuilt)]
+selfbuilt <- gsub("NAME  ", "", selfbuilt)
+    
+
+score_cutoff <- data.frame(domain = c(pfam_domains, selfbuilt))
+
+score_cutoff$domaincutoff <- c(
+    11, 15, 20, NA, 12.2, 19.7, 21.5, NA, 21, 22, # 1:10
+    22.5, NA, 17, 16, NA, NA, NA, 16, NA, 20.7, # 11:20
+    NA, 20.8, 22, 23, 30.2, 21.5, 26, 150, 21.3, 22, # 21:30
+    23, 22, 20.5, 21, 20.9, NA, 25, NA, 29.5, 22, # 31:40
+    21, 20.5, 22, 21.3, 25, NA, 23, NA, 20.2, 20.2, # 41:50
+    20.2, 21.3, NA, 20, 24, 27, 24, 50, 150, 100, # 51:60
+    NA, NA, NA, 16
+)
+
+usethis::use_data(score_cutoff, compress = "xz", internal = TRUE)
 ```
