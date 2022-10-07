@@ -14,7 +14,7 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 coverage](https://codecov.io/gh/almeidasilvaf/tfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/tfhunter?branch=master)
 <!-- badges: end -->
 
-The goal of `tfhunter` is to identify plant transcription factors from
+The goal of **tfhunter** is to identify plant transcription factors from
 protein sequence data and classify them into families and subfamilies
 using the classification scheme implemented in
 [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
@@ -22,7 +22,7 @@ using the classification scheme implemented in
 ## Installation instructions
 
 Get the latest stable `R` release from
-[CRAN](http://cran.r-project.org/). Then install `tfhunter` from
+[CRAN](http://cran.r-project.org/). Then install **tfhunter** from
 [Bioconductor](http://bioconductor.org/) using the following code:
 
 ``` r
@@ -66,14 +66,15 @@ print(citation('tfhunter'), bibtex = TRUE)
 #>   }
 ```
 
-Please note that the `tfhunter` project was only made possible thanks to
-many other R and bioinformatics software authors, which are cited either
-in the vignettes and/or the paper(s) describing this package.
+Please note that the **tfhunter** project was only made possible thanks
+to many other R and bioinformatics software authors, which are cited
+either in the vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 
-Please note that the `tfhunter` project is released with a [Contributor
-Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By
+Please note that the **tfhunter** project is released with a
+[Contributor Code of
+Conduct](http://bioconductor.org/about/code-of-conduct/). By
 contributing to this project, you agree to abide by its terms.
 
 ## Development tools
@@ -95,8 +96,6 @@ contributing to this project, you agree to abide by its terms.
 -   The documentation is formatted thanks to
     *[devtools](https://CRAN.R-project.org/package=devtools)* and
     *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
-
-For more details, check the `dev` directory.
 
 This package was developed using
 *[biocthis](https://bioconductor.org/packages/3.15/biocthis)*.

@@ -142,17 +142,20 @@ table(gsu_families$Family)
 
 If you want to get TF counts per family for multiple species, you can use
 the function `get_tf_counts()`. This function takes a list of `AAStringSet`
-objects containing proteomes as input, and it returns a `SummarizedExperiment`
+objects containing proteomes as input [^3], and it returns a `SummarizedExperiment`
 object containing TF counts per family in each species, as well as species
 metadata (optional). If you are not familiar with the `SummarizedExperiment`
 class, you should consider checking the vignettes of the 
 `r BiocStyle::Biocpkg("SummarizedExperiment")` Bioconductor package.
 
+[^3]: **Tip:** If you have whole-genome protein sequences for multiple
+species as FASTA files in a given directory, you can read them all as a list
+of `AAStringSet` objects with the function `fasta2AAStringSetlist()` from
+the Bioconductor package `r BiocStyle::Biocpkg("syntenet")`.
 
 To demonstrate how `get_tf_counts()` works, we will simulate a 
-list of 4 `AAStringSet` objects by sampling 100 random genes from the example
-data set `gsu` 4 times. We will also create a toy species metadata data frame
-for each "species" (simulated).
+list of 4 `AAStringSet` objects by sampling 50 random genes from the example
+data set `gsu` 4 times. 
 
 ```{r simulate_data_proteomes}
 set.seed(123) # for reproducibility
@@ -167,7 +170,7 @@ proteomes <- list(
 proteomes
 ```
 
-Great, now we have a list of 4 `AAStringSet` objects. Let's also create a 
+Great, we have a list of 4 `AAStringSet` objects. Now, let's also create a 
 simulated species metadata data frame for each "species" (simulated).
 
 ```{r simulate_data_species_metadata}
@@ -207,9 +210,10 @@ SummarizedExperiment::assay(tf_counts)
 SummarizedExperiment::colData(tf_counts)
 ```
 
-Cool, huh? In real-world analyses, if you have TF counts per family in 
-multiple species, you can try to find associations between TF counts and
-eco-evolutionary aspects of each species (e.g., higher frequencies of
+Cool, huh? In real-world analyses, once you have TF counts per family in 
+multiple species obtained with `get_tf_counts()`, 
+you can try to find associations between TF counts and
+eco-evolutionary aspects or traits of each species (e.g., higher frequencies of
 a stress-related TF family in a species that inhabits a stressful environment).
 
 # Session information {.unnumbered}

@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 coverage](https://codecov.io/gh/almeidasilvaf/tfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/tfhunter?branch=master)
 <!-- badges: end -->
 
-The goal of `tfhunter` is to identify plant transcription factors from protein 
+The goal of __tfhunter__ is to identify plant transcription factors from protein 
 sequence data and classify them into families and subfamilies using the
 classification scheme implemented 
 in [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
@@ -31,7 +31,7 @@ in [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
 ## Installation instructions
 
 Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). 
-Then install `tfhunter` from [Bioconductor](http://bioconductor.org/) 
+Then install __tfhunter__ from [Bioconductor](http://bioconductor.org/) 
 using the following code:
 
 ```{r 'install', eval = FALSE}
@@ -58,13 +58,15 @@ run this yourself to check for any updates on how to cite __tfhunter__.
 print(citation('tfhunter'), bibtex = TRUE)
 ```
 
-Please note that the `tfhunter` project was only made possible thanks to many 
+Please note that the __tfhunter__ project was only made possible thanks to many 
 other R and bioinformatics software authors, which are cited either in the 
 vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 
-Please note that the `tfhunter` project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
+Please note that the __tfhunter__ project is released with 
+a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). 
+By contributing to this project, you agree to abide by its terms.
 
 ## Development tools
 
@@ -72,8 +74,6 @@ Please note that the `tfhunter` project is released with a [Contributor Code of 
 * Code coverage assessment is possible thanks to [codecov](https://codecov.io/gh) and `r BiocStyle::CRANpkg('covr')`.
 * The [documentation website](http://almeidasilvaf.github.io/tfhunter) is automatically updated thanks to `r BiocStyle::CRANpkg('pkgdown')`.
 * The documentation is formatted thanks to `r BiocStyle::CRANpkg('devtools')` and `r BiocStyle::CRANpkg('roxygen2')`.
-
-For more details, check the `dev` directory.
 
 This package was developed using `r BiocStyle::Biocpkg('biocthis')`.
 
