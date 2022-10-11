@@ -1,28 +1,28 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tfhunter <img src="man/figures/logo.png" align="right" height="139" />
+# planttfhunter <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
 
 [![GitHub
-issues](https://img.shields.io/github/issues/almeidasilvaf/tfhunter)](https://github.com/almeidasilvaf/tfhunter/issues)
+issues](https://img.shields.io/github/issues/almeidasilvaf/planttfhunter)](https://github.com/almeidasilvaf/planttfhunter/issues)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check-bioc](https://github.com/almeidasilvaf/tfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/tfhunter/actions)
+[![R-CMD-check-bioc](https://github.com/almeidasilvaf/planttfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/planttfhunter/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/almeidasilvaf/tfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/tfhunter?branch=master)
+coverage](https://codecov.io/gh/almeidasilvaf/planttfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/planttfhunter?branch=master)
 <!-- badges: end -->
 
-The goal of **tfhunter** is to identify plant transcription factors from
-protein sequence data and classify them into families and subfamilies
-using the classification scheme implemented in
+The goal of **planttfhunter** is to identify plant transcription factors
+from protein sequence data and classify them into families and
+subfamilies using the classification scheme implemented in
 [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
 
 ## Installation instructions
 
 Get the latest stable `R` release from
-[CRAN](http://cran.r-project.org/). Then install **tfhunter** from
+[CRAN](http://cran.r-project.org/). Then install **planttfhunter** from
 [Bioconductor](http://bioconductor.org/) using the following code:
 
 ``` r
@@ -30,49 +30,34 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
 }
 
-BiocManager::install("tfhunter")
+BiocManager::install("planttfhunter")
 ```
 
 And the development version from
-[GitHub](https://github.com/almeidasilvaf/tfhunter) with:
+[GitHub](https://github.com/almeidasilvaf/planttfhunter) with:
 
 ``` r
-BiocManager::install("almeidasilvaf/tfhunter")
+BiocManager::install("almeidasilvaf/planttfhunter")
 ```
 
 ## Citation
 
-Below is the citation output from using `citation('tfhunter')` in R.
-Please run this yourself to check for any updates on how to cite
-**tfhunter**.
+Below is the citation output from using `citation('planttfhunter')` in
+R. Please run this yourself to check for any updates on how to cite
+**planttfhunter**.
 
 ``` r
-print(citation('tfhunter'), bibtex = TRUE)
-#> 
-#> To cite package 'tfhunter' in publications use:
-#> 
-#>   Almeida-Silva F, Van de Peer Y (2022). _tfhunter: Identification and
-#>   classification of plant transcription factors_. R package version
-#>   0.99.0, <https://github.com/almeidasilvaf/tfhunter>.
-#> 
-#> A BibTeX entry for LaTeX users is
-#> 
-#>   @Manual{,
-#>     title = {tfhunter: Identification and classification of plant transcription factors},
-#>     author = {Fabrício Almeida-Silva and Yves {Van de Peer}},
-#>     year = {2022},
-#>     note = {R package version 0.99.0},
-#>     url = {https://github.com/almeidasilvaf/tfhunter},
-#>   }
+print(citation('planttfhunter'), bibtex = TRUE)
 ```
 
-Please note that the **tfhunter** project was only made possible thanks
-to many other R and bioinformatics software authors, which are cited
-either in the vignettes and/or the paper(s) describing this package.
+Please note that the **planttfhunter** project was only made possible
+thanks to many other R and bioinformatics software authors, which are
+cited either in the vignettes and/or the paper(s) describing this
+package.
 
 ## Code of Conduct
 
-Please note that the **tfhunter** project is released with a
+Please note that the **planttfhunter** project is released with a
 [Contributor Code of
 Conduct](http://bioconductor.org/about/code-of-conduct/). By
 contributing to this project, you agree to abide by its terms.
@@ -90,8 +75,9 @@ contributing to this project, you agree to abide by its terms.
 -   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
--   The [documentation website](http://almeidasilvaf.github.io/tfhunter)
-    is automatically updated thanks to
+-   The [documentation
+    website](http://almeidasilvaf.github.io/planttfhunter) is
+    automatically updated thanks to
     *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
 -   The documentation is formatted thanks to
     *[devtools](https://CRAN.R-project.org/package=devtools)* and

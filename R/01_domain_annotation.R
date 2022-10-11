@@ -34,7 +34,7 @@ annotate_pfam <- function(seq = NULL, evalue = 1e-05) {
     Biostrings::writeXStringSet(seq, filepath = seq_path)
     
     # Run hmmsearch using pre-built HMM profiles in extdata/
-    profiles <- system.file("extdata", package = "tfhunter")
+    profiles <- system.file("extdata", package = "planttfhunter")
     profiles <- list.files(profiles, pattern = ".hmm", full.names = TRUE)
     
     annotation <- lapply(profiles, function(x) {

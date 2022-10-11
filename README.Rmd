@@ -13,17 +13,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tfhunter <img src="man/figures/logo.png" align="right" height="139" />
+# planttfhunter <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
-[![GitHub issues](https://img.shields.io/github/issues/almeidasilvaf/tfhunter)](https://github.com/almeidasilvaf/tfhunter/issues)
+[![GitHub issues](https://img.shields.io/github/issues/almeidasilvaf/planttfhunter)](https://github.com/almeidasilvaf/planttfhunter/issues)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check-bioc](https://github.com/almeidasilvaf/tfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/tfhunter/actions)
+[![R-CMD-check-bioc](https://github.com/almeidasilvaf/planttfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/planttfhunter/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/almeidasilvaf/tfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/tfhunter?branch=master)
+coverage](https://codecov.io/gh/almeidasilvaf/planttfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/planttfhunter?branch=master)
 <!-- badges: end -->
 
-The goal of __tfhunter__ is to identify plant transcription factors from protein 
+The goal of __planttfhunter__ is to identify plant transcription factors from protein 
 sequence data and classify them into families and subfamilies using the
 classification scheme implemented 
 in [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
@@ -31,7 +31,7 @@ in [PlantTFDB](https://doi.org/10.1093/nar/gkz1020).
 ## Installation instructions
 
 Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). 
-Then install __tfhunter__ from [Bioconductor](http://bioconductor.org/) 
+Then install __planttfhunter__ from [Bioconductor](http://bioconductor.org/) 
 using the following code:
 
 ```{r 'install', eval = FALSE}
@@ -39,32 +39,32 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
 }
 
-BiocManager::install("tfhunter")
+BiocManager::install("planttfhunter")
 ```
 
 And the development version from 
-[GitHub](https://github.com/almeidasilvaf/tfhunter) with:
+[GitHub](https://github.com/almeidasilvaf/planttfhunter) with:
 
 ```{r 'install_dev', eval = FALSE}
-BiocManager::install("almeidasilvaf/tfhunter")
+BiocManager::install("almeidasilvaf/planttfhunter")
 ```
 
 ## Citation
 
-Below is the citation output from using `citation('tfhunter')` in R. Please
-run this yourself to check for any updates on how to cite __tfhunter__.
+Below is the citation output from using `citation('planttfhunter')` in R. Please
+run this yourself to check for any updates on how to cite __planttfhunter__.
 
-```{r 'citation', eval = requireNamespace('tfhunter')}
-print(citation('tfhunter'), bibtex = TRUE)
+```{r 'citation', eval = requireNamespace('planttfhunter')}
+print(citation('planttfhunter'), bibtex = TRUE)
 ```
 
-Please note that the __tfhunter__ project was only made possible thanks to many 
+Please note that the __planttfhunter__ project was only made possible thanks to many 
 other R and bioinformatics software authors, which are cited either in the 
 vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 
-Please note that the __tfhunter__ project is released with 
+Please note that the __planttfhunter__ project is released with 
 a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). 
 By contributing to this project, you agree to abide by its terms.
 
@@ -72,7 +72,7 @@ By contributing to this project, you agree to abide by its terms.
 
 * Continuous code testing is possible thanks to [GitHub actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)  through `r BiocStyle::CRANpkg('usethis')`, `r BiocStyle::CRANpkg('remotes')`, and `r BiocStyle::CRANpkg('rcmdcheck')` customized to use [Bioconductor's docker containers](https://www.bioconductor.org/help/docker/) and `r BiocStyle::Biocpkg('BiocCheck')`.
 * Code coverage assessment is possible thanks to [codecov](https://codecov.io/gh) and `r BiocStyle::CRANpkg('covr')`.
-* The [documentation website](http://almeidasilvaf.github.io/tfhunter) is automatically updated thanks to `r BiocStyle::CRANpkg('pkgdown')`.
+* The [documentation website](http://almeidasilvaf.github.io/planttfhunter) is automatically updated thanks to `r BiocStyle::CRANpkg('pkgdown')`.
 * The documentation is formatted thanks to `r BiocStyle::CRANpkg('devtools')` and `r BiocStyle::CRANpkg('roxygen2')`.
 
 This package was developed using `r BiocStyle::Biocpkg('biocthis')`.

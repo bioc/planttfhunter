@@ -1,4 +1,4 @@
-# tfhunter 0.99.0
+# planttfhunter 0.99.0
 
 NEW FEATURES
 

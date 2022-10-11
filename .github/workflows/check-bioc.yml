@@ -74,7 +74,7 @@ jobs:
           mkdir /__w/_temp/Library
           echo ".libPaths('/__w/_temp/Library')" > ~/.Rprofile
           
-          git config --global --add safe.directory /__w/tfhunter/tfhunter
+          git config --global --add safe.directory /__w/planttfhunter/planttfhunter
 
 
       ## Most of these steps are the same as the ones in
@@ -306,7 +306,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: almeidasilvaf/tfhunter
+          repository: almeidasilvaf/planttfhunter
           tag_with_ref: true
           tag_with_sha: true
           tags: latest

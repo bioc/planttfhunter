@@ -1,4 +1,4 @@
-Package: tfhunter
+Package: planttfhunter
 Title: Identification and classification of plant transcription factors
 Version: 0.99.0
 Date: 2022-03-10
@@ -15,7 +15,7 @@ Authors@R:
            email = "yves.vandepeer@psb.vib-ugent.be",
            comment = c(ORCID = "0000-0003-4327-3730"))
     )
-Description: tfhunter is used to identify plant transcription factors (TFs) 
+Description: planttfhunter is used to identify plant transcription factors (TFs) 
     from protein sequence data and classify them into families and subfamilies
     using the classification scheme implemented in PlantTFDB.
     TFs are identified using pre-built hidden Markov model profiles
@@ -24,8 +24,8 @@ Description: tfhunter is used to identify plant transcription factors (TFs)
     subfamilies (when applicable). Currently, TFs can be classified in
     58 different TF families/subfamilies.
 License: GPL-3
-URL: https://github.com/almeidasilvaf/tfhunter
-BugReports: https://support.bioconductor.org/t/tfhunter
+URL: https://github.com/almeidasilvaf/planttfhunter
+BugReports: https://support.bioconductor.org/t/planttfhunter
 biocViews: Software,
     Transcription,
     FunctionalPrediction,
