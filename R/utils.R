@@ -71,7 +71,7 @@ filter_hmmer <- function(hmmer_results = NULL, evalue = 1e-05) {
 #'
 #' @return Logical indicating whether the command is in PATH or not.
 #' @noRd
-is_valid <- function(cmd = NULL, args = NULL) {
+is_valid_cmd <- function(cmd = NULL, args = NULL) {
   found <- tryCatch(
     system2(cmd, args = args, stdout = FALSE, stderr = FALSE), 
     error = function(e) return(FALSE),
@@ -91,7 +91,7 @@ is_valid <- function(cmd = NULL, args = NULL) {
 #' @examples 
 #' hmmer_is_installed()
 hmmer_is_installed <- function() {
-  valid <- is_valid(cmd = "hmmsearch", args = "-h")
+  valid <- is_valid_cmd(cmd = "hmmsearch", args = "-h")
   return(valid)
 }
 

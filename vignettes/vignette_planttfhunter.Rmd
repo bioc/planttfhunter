@@ -42,6 +42,12 @@ gene regulatory networks. `r BiocStyle::Githubpkg("almeidasilvaf/planttfhunter")
 allows users to identify plant TFs from whole-genome protein sequences and 
 classify them into families and subfamilies (when applicable) using the 
 classification scheme implemented in [PlantTFDB](http://planttfdb.gao-lab.org/).
+As `r BiocStyle::Githubpkg("almeidasilvaf/planttfhunter")` interoperates with 
+core Bioconductor packages (i.e., `AAStringSet` objects as input, 
+`SummarizedExperiment` objects as output), it can be easily incorporated in 
+pipelines for TF identification and classification in large-scale genomic
+data sets.
+
 
 # Installation
 
@@ -103,10 +109,16 @@ sequences for the presence of DNA-binding protein domains, as well as
 auxiliary and forbidden domains. Pre-built HMM profiles can be found in the
 *extdata/* directory of this package.
 
-
 [^2]: **Tip:** If you have protein sequences in a FASTA file, you can read 
 them into an `AAStringSet` object with the function `readAAStringSet()` from 
 the `r BiocStyle::Biocpkg("Biostrings")` package.
+
+This is how you can run `annotate_pfam()` [^3]:
+
+[^3]: **Note:** in the code chunk below, the if statement is not required.
+We just added it to make sure that the function `annotate_pfam()` is only
+executed if HMMER is installed, to avoid problems when building this
+vignette in machines that do not have HMMER installed. 
 
 ```{r identifying_tfs}
 data(gsu_annotation)
@@ -124,12 +136,8 @@ Now that we have our TF-related domains, we can classify TFs in families
 with the function `classify_tfs()`.
 
 ```{r classifying_tfs}
-data(gsu_families)
-
 # Classify TFs into families
-if(hmmer_is_installed()) {
-  gsu_families <- classify_tfs(gsu_annotation)
-} 
+gsu_families <- classify_tfs(gsu_annotation)
 
 # Take a look at the output
 head(gsu_families)
@@ -142,13 +150,13 @@ table(gsu_families$Family)
 
 If you want to get TF counts per family for multiple species, you can use
 the function `get_tf_counts()`. This function takes a list of `AAStringSet`
-objects containing proteomes as input [^3], and it returns a `SummarizedExperiment`
+objects containing proteomes as input [^4], and it returns a `SummarizedExperiment`
 object containing TF counts per family in each species, as well as species
 metadata (optional). If you are not familiar with the `SummarizedExperiment`
 class, you should consider checking the vignettes of the 
 `r BiocStyle::Biocpkg("SummarizedExperiment")` Bioconductor package.
 
-[^3]: **Tip:** If you have whole-genome protein sequences for multiple
+[^4]: **Tip:** If you have whole-genome protein sequences for multiple
 species as FASTA files in a given directory, you can read them all as a list
 of `AAStringSet` objects with the function `fasta2AAStringSetlist()` from
 the Bioconductor package `r BiocStyle::Biocpkg("syntenet")`.
@@ -190,7 +198,9 @@ that `names(proteomes)` match `rownames(species)`,
 otherwise `get_tf_counts()` will return an error. 
 
 Now that we have a list of `AAStringSet` objects and species metadata, we
-can execute `get_tf_counts()` as below:
+can execute `get_tf_counts()`. This function uses `annotate_pfam()` under
+the hood, so you also need to have HMMER installed and in your PATH to run it.
+Here is how you can run it:
 
 ```{r get_tf_counts}
 data(tf_counts)

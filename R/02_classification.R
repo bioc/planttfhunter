@@ -15,7 +15,10 @@
 #' families <- classify_tfs(domain_annotation)
 classify_tfs <- function(domain_annotation = NULL) {
     
-    dom <- list_domains(show = "dbd")
+    dom <- c(
+        list_domains("dbd"), list_domains("auxiliary"), 
+        list_domains("forbidden")
+    )
     annot <- domain_annotation[domain_annotation$Domain %in% dom, ]
     annot_list <- split(annot, annot[, 1])
     

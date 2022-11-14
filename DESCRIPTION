@@ -1,6 +1,6 @@
 Package: planttfhunter
 Title: Identification and classification of plant transcription factors
-Version: 0.99.0
+Version: 0.99.1
 Date: 2022-03-10
 Authors@R: 
     c(
@@ -36,7 +36,7 @@ biocViews: Software,
     Classification
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 SystemRequirements: HMMER <http://hmmer.org/>
 Imports:
     Biostrings,

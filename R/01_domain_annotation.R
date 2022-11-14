@@ -30,7 +30,7 @@ annotate_pfam <- function(seq = NULL, evalue = 1e-05) {
     }
     
     # Write file to temporary directory
-    seq_path <- paste0(tempdir(), "/seq.fasta")
+    seq_path <- tempfile("seq", fileext = ".fasta")
     Biostrings::writeXStringSet(seq, filepath = seq_path)
     
     # Run hmmsearch using pre-built HMM profiles in extdata/
@@ -38,9 +38,10 @@ annotate_pfam <- function(seq = NULL, evalue = 1e-05) {
     profiles <- list.files(profiles, pattern = ".hmm", full.names = TRUE)
     
     annotation <- lapply(profiles, function(x) {
-        out_file <- paste0("--domtblout ", tempdir(), "/search.txt")
-        system2("hmmsearch", args = c(out_file, x, seq_path), stdout = FALSE)
-        result <- read_hmmsearch(path = paste0(tempdir(), "/search.txt"))
+        out_file <- tempfile(pattern = "search", fileext = ".txt")
+        cmd_args <- c("--domtblout", out_file, x, seq_path)
+        system2("hmmsearch", args = cmd_args, stdout = FALSE)
+        result <- read_hmmsearch(path = out_file)
         annot <- NULL
         if(!is.null(result)) {
             result <- filter_hmmer(result)
@@ -52,10 +53,11 @@ annotate_pfam <- function(seq = NULL, evalue = 1e-05) {
                 )
             }
         }
+        unlink(out_file)
         return(annot)
     })
     annotation <- Reduce(rbind, annotation)
-    
+    unlink(seq_path)
     return(annotation)
 }
 
