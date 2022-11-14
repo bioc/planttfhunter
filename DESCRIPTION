@@ -1,6 +1,6 @@
 Package: planttfhunter
 Title: Identification and classification of plant transcription factors
-Version: 0.99.1
+Version: 0.99.2
 Date: 2022-03-10
 Authors@R: 
     c(

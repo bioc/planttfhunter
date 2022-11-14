@@ -42,8 +42,8 @@ test_that("filter_hmmer() filters hmmsearch output", {
     )
 })
 
-test_that("is_valid() works", {
-    v <- is_valid(cmd = "hmmsearch", args = "-h")
+test_that("is_valid_cmd() works", {
+    v <- is_valid_cmd(cmd = "hmmsearch", args = "-h")
     expect_equal(class(v), "logical")
     expect_equal(length(v), 1)
 })
