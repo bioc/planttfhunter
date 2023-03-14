@@ -11,7 +11,7 @@ issues](https://img.shields.io/github/issues/almeidasilvaf/planttfhunter)](https
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check-bioc](https://github.com/almeidasilvaf/planttfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/planttfhunter/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/almeidasilvaf/planttfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/planttfhunter?branch=master)
+coverage](https://codecov.io/gh/almeidasilvaf/planttfhunter/branch/devel/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/planttfhunter?branch=devel)
 <!-- badges: end -->
 
 The goal of **planttfhunter** is to identify plant transcription factors
@@ -48,6 +48,22 @@ R. Please run this yourself to check for any updates on how to cite
 
 ``` r
 print(citation('planttfhunter'), bibtex = TRUE)
+#> 
+#> To cite package 'planttfhunter' in publications use:
+#> 
+#>   Almeida-Silva F, Van de Peer Y (2022). _planttfhunter: Identification
+#>   and classification of plant transcription factors_. R package version
+#>   0.99.0, <https://github.com/almeidasilvaf/planttfhunter>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {planttfhunter: Identification and classification of plant transcription factors},
+#>     author = {Fabrício Almeida-Silva and Yves {Van de Peer}},
+#>     year = {2022},
+#>     note = {R package version 0.99.0},
+#>     url = {https://github.com/almeidasilvaf/planttfhunter},
+#>   }
 ```
 
 Please note that the **planttfhunter** project was only made possible
@@ -64,24 +80,24 @@ contributing to this project, you agree to abide by its terms.
 
 ## Development tools
 
--   Continuous code testing is possible thanks to [GitHub
-    actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)
-    through *[usethis](https://CRAN.R-project.org/package=usethis)*,
-    *[remotes](https://CRAN.R-project.org/package=remotes)*, and
-    *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
-    customized to use [Bioconductor’s docker
-    containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
--   Code coverage assessment is possible thanks to
-    [codecov](https://codecov.io/gh) and
-    *[covr](https://CRAN.R-project.org/package=covr)*.
--   The [documentation
-    website](http://almeidasilvaf.github.io/planttfhunter) is
-    automatically updated thanks to
-    *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
--   The documentation is formatted thanks to
-    *[devtools](https://CRAN.R-project.org/package=devtools)* and
-    *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
+- Continuous code testing is possible thanks to [GitHub
+  actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)
+  through *[usethis](https://CRAN.R-project.org/package=usethis)*,
+  *[remotes](https://CRAN.R-project.org/package=remotes)*, and
+  *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)* customized
+  to use [Bioconductor’s docker
+  containers](https://www.bioconductor.org/help/docker/) and
+  *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
+- Code coverage assessment is possible thanks to
+  [codecov](https://codecov.io/gh) and
+  *[covr](https://CRAN.R-project.org/package=covr)*.
+- The [documentation
+  website](http://almeidasilvaf.github.io/planttfhunter) is
+  automatically updated thanks to
+  *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
+- The documentation is formatted thanks to
+  *[devtools](https://CRAN.R-project.org/package=devtools)* and
+  *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
 
 This package was developed using
 *[biocthis](https://bioconductor.org/packages/3.15/biocthis)*.

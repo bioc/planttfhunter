@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check-bioc](https://github.com/almeidasilvaf/planttfhunter/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/almeidasilvaf/planttfhunter/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/almeidasilvaf/planttfhunter/branch/master/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/planttfhunter?branch=master)
+coverage](https://codecov.io/gh/almeidasilvaf/planttfhunter/branch/devel/graph/badge.svg)](https://codecov.io/gh/almeidasilvaf/planttfhunter?branch=devel)
 <!-- badges: end -->
 
 The goal of __planttfhunter__ is to identify plant transcription factors from protein 
