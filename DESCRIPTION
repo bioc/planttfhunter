@@ -1,6 +1,6 @@
 Package: planttfhunter
 Title: Identification and classification of plant transcription factors
-Version: 1.13.0
+Version: 1.13.1
 Date: 2022-03-10
 Authors@R: 
     c(
@@ -17,12 +17,16 @@ Authors@R:
     )
 Description: planttfhunter is used to identify plant transcription factors (TFs) 
     from protein sequence data and classify them into families and subfamilies
-    using the classification scheme implemented in PlantTFDB.
+    using the classification schemes implemented in PlantTFDB and TAPscan.
+    TFs are also classified into structure-based families, classes, and
+    superclasses as in Plant-TFClass.
     TFs are identified using pre-built hidden Markov model profiles
     for DNA-binding domains. Then, auxiliary and forbidden domains are
     used with DNA-binding domains to classify TFs into families and
-    subfamilies (when applicable). Currently, TFs can be classified in
-    58 different TF families/subfamilies.
+    subfamilies (when applicable). TFs can be classified in
+    58 different TF families/subfamilies with PlantTFDB's scheme, and in
+    over 130 families of transcription-associated proteins with
+    TAPscan's scheme.
 License: GPL-3
 URL: https://github.com/almeidasilvaf/planttfhunter
 BugReports: https://support.bioconductor.org/t/planttfhunter
