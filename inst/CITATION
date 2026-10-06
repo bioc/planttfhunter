@@ -1,0 +1,97 @@
+pkg_version <- if(!is.null(meta$Version)) meta$Version else ""
+pkg_year <- if(!is.null(meta$Date)) {
+    substr(meta$Date, 1, 4)
+} else {
+    format(Sys.Date(), "%Y")
+}
+
+bibentry(
+    bibtype = "Manual",
+    key = "planttfhunter",
+    header = paste0(
+        "To cite planttfhunter in publications, please cite the package ",
+        "and the classification scheme(s) you used:"
+    ),
+    title = paste0(
+        "planttfhunter: Identification and classification of plant ",
+        "transcription factors"
+    ),
+    author = c(
+        person("Fabrício", "Almeida-Silva"),
+        person("Yves", "Van de Peer")
+    ),
+    year = pkg_year,
+    note = paste("R package version", pkg_version),
+    doi = "10.18129/B9.bioc.planttfhunter",
+    url = "https://bioconductor.org/packages/planttfhunter"
+)
+
+bibentry(
+    bibtype = "Article",
+    key = "jin2017planttfdb",
+    title = paste0(
+        "PlantTFDB 4.0: toward a central hub for transcription factors and ",
+        "regulatory interactions in plants"
+    ),
+    author = c(
+        person("Jinpu", "Jin"), person("Feng", "Tian"),
+        person("De-Chang", "Yang"), person("Yu-Qi", "Meng"),
+        person("Lei", "Kong"), person("Jingchu", "Luo"), person("Ge", "Gao")
+    ),
+    journal = "Nucleic Acids Research",
+    volume = "45",
+    number = "D1",
+    pages = "D1040--D1045",
+    year = "2017",
+    doi = "10.1093/nar/gkw982"
+)
+
+bibentry(
+    bibtype = "Article",
+    key = "petroll2025tapscan",
+    title = paste0(
+        "Enhanced sensitivity of TAPscan v4 enables comprehensive analysis ",
+        "of streptophyte transcription factor evolution"
+    ),
+    author = c(
+        person("Romy", "Petroll"), person("Deepti", "Varshney"),
+        person("Saskia", "Hiltemann"), person("Hermann", "Finke"),
+        person("Mona", "Schreiber"), person("Jan", "de Vries"),
+        person(c("Stefan", "A."), "Rensing")
+    ),
+    journal = "The Plant Journal",
+    volume = "121",
+    number = "1",
+    pages = "e17184",
+    year = "2025",
+    doi = "10.1111/tpj.17184"
+)
+
+bibentry(
+    bibtype = "Article",
+    key = "blancmathieu2024planttfclass",
+    title = paste0(
+        "Plant-TFClass: a structural classification for plant transcription ",
+        "factors"
+    ),
+    author = c(
+        person("Romain", "Blanc-Mathieu"), person("Renaud", "Dumas"),
+        person("Laura", "Turchi"), person("Jérémy", "Lucas"),
+        person("François", "Parcy")
+    ),
+    journal = "Trends in Plant Science",
+    volume = "29",
+    number = "1",
+    pages = "40--51",
+    year = "2024",
+    doi = "10.1016/j.tplants.2023.06.023",
+    footer = paste0(
+        "Example of how to cite planttfhunter and the classification schemes ",
+        "(remove the schemes you did not use):\n\n",
+        "  'TFs and their families were identified and classified with the ",
+        "R/Bioconductor package planttfhunter (Almeida-Silva and Van de Peer, ",
+        pkg_year, "), using the classification schemes of PlantTFDB ",
+        "(Jin et al., 2017), TAPscan (Petroll et al., 2025), and ",
+        "Plant-TFClass (Blanc-Mathieu et al., 2024).'"
+    )
+)

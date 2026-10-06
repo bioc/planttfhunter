@@ -7,7 +7,8 @@
 hmmer_is_installed()
 }
 \value{
-Logical indicating whether HMMER is installed or not.
+Logical indicating whether HMMER is installed (i.e., whether
+the program \code{hmmsearch} is in the PATH) or not.
 }
 \description{
 Check if HMMER is installed

@@ -5,14 +5,11 @@
 \alias{gsu_annotation}
 \title{Domain annotation for the algae species Galdieria sulphuraria
 
-The data set was created using the funcion \code{annotate_pfam()} in local
-mode.}
+The data set was created using the function \code{annotate_domains()}.}
 \format{
-A 2-column data frame with the following variables:
-\describe{
-\item{Gene}{Gene ID}
-\item{Annotation}{Domain ID or domain name when ID is not available in PFAM}
-}
+A list of 2 data frames (\strong{PlantTFDB} and
+\strong{TAPscan}) with domain annotation, as returned
+by \code{annotate_domains()}.
 }
 \usage{
 data(gsu_annotation)
@@ -20,8 +17,7 @@ data(gsu_annotation)
 \description{
 Domain annotation for the algae species Galdieria sulphuraria
 
-The data set was created using the funcion \code{annotate_pfam()} in local
-mode.
+The data set was created using the function \code{annotate_domains()}.
 }
 \examples{
 data(gsu_annotation)

@@ -2,50 +2,83 @@
 % Please edit documentation in R/03_tf_counts.R
 \name{get_tf_counts}
 \alias{get_tf_counts}
-\title{Get TF frequencies for each species as a SummarizedExperiment object}
+\title{Get TF frequencies for each species as a \code{SummarizedExperiment} object}
 \usage{
-get_tf_counts(proteomes, species_metadata = NULL)
+get_tf_counts(
+  families,
+  species_metadata = NULL,
+  scheme = c("PlantTFDB", "TAPscan", "PlantTFClass"),
+  level = "family"
+)
 }
 \arguments{
-\item{proteomes}{List of \strong{AAStringSet} objects}
+\item{families}{A named list of data frames with TF classifications for
+each species, as returned by \code{classify_tfs()}. List names
+represent species names.}
 
 \item{species_metadata}{(Optional) A data frame containing species names
 in row names (names must match element names in
-the \strong{proteomes} list), and species metadata
+the \strong{families} list), and species metadata
 (e.g., taxonomic information, ecological information)
-in columns. If NULL, the colData of the SummarizedExperiment object
+in columns. If NULL, the colData of the \code{SummarizedExperiment} object
 will be empty.}
+
+\item{scheme}{Character indicating which classification scheme to use.
+One of 'PlantTFDB', 'TAPscan', or 'PlantTFClass'. Default: 'PlantTFDB'.}
+
+\item{level}{Character indicating the classification level at which TFs
+will be counted. Possible levels depend on the classification scheme:
+'family' or 'subfamily' for PlantTFDB and TAPscan, and 'superclass',
+'class', or 'family' for Plant-TFClass. Default: 'family'.}
 }
 \value{
-A SummarizedExperiment object containing transcription factor
-frequencies per family in each species, as well as species metadata (if
-\strong{species_metadata} is not NULL).
+A SummarizedExperiment object containing TF frequencies per
+family (or other level) in each species, as well as species metadata (if
+\strong{species_metadata} is not NULL). The rowData of the object
+contains the more general classification levels of each row (if any),
+which can be used to aggregate counts, as well as the TAP class of each
+row for TAPscan. For PlantTFDB, genes assigned to more than one family
+are counted once for each family. For Plant-TFClass, genes with
+ambiguous classifications (i.e., multiple possible families separated
+by ';') are counted in a separate row with all possible families.
 }
 \description{
-This function identifies and classifies TFs, and returns TF counts for
-each family as a SummarizedExperiment object
+This function counts TFs per family (or other classification level) in
+each species from TF classifications obtained with \code{classify_tfs()},
+and returns the counts as a \code{SummarizedExperiment} object.
 }
 \examples{
-data(gsu)
+data(gsu_annotation)
+gsu_families <- classify_tfs(gsu_annotation)
 
+# Simulate TF classifications for 4 species by sampling 100 genes
 set.seed(123)
-# Pick random subsets of 100 genes to simulate other species
-proteomes <- list(
-    Gsu1 = gsu[sample(names(gsu), 50, replace = FALSE)],
-    Gsu2 = gsu[sample(names(gsu), 50, replace = FALSE)],
-    Gsu3 = gsu[sample(names(gsu), 50, replace = FALSE)],
-    Gsu4 = gsu[sample(names(gsu), 50, replace = FALSE)]
+families <- list(
+    Gsu1 = gsu_families[sample(nrow(gsu_families), 100), ],
+    Gsu2 = gsu_families[sample(nrow(gsu_families), 100), ],
+    Gsu3 = gsu_families[sample(nrow(gsu_families), 100), ],
+    Gsu4 = gsu_families[sample(nrow(gsu_families), 100), ]
 )
 
 # Create species metadata
 species_metadata <- data.frame(
-    row.names = names(proteomes),
+    row.names = names(families),
     Division = "Rhodophyta",
     Origin = c("US", "Belgium", "China", "Brazil")
 )
 
-# Get SummarizedExperiment object
-if(hmmer_is_installed()) {
-    se <- get_tf_counts(proteomes, species_metadata)
-}
+# Count TFs per PlantTFDB family
+se <- get_tf_counts(families, species_metadata)
+
+# Count TAPscan TFs (excluding TRs and PTs) per subfamily
+tapscan_tfs <- lapply(families, function(x) x[x$TAP_class \%in\% "TF", ])
+se_tapscan <- get_tf_counts(
+    tapscan_tfs, scheme = "TAPscan", level = "subfamily"
+)
+se_tapscan
+
+# Count TFs per Plant-TFClass superclass
+se_superclass <- get_tf_counts(
+    families, scheme = "PlantTFClass", level = "superclass"
+)
 }
