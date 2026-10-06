@@ -41,7 +41,10 @@ exploring their evolutionary history across clades and inferring
 gene regulatory networks. `r BiocStyle::Githubpkg("almeidasilvaf/planttfhunter")` 
 allows users to identify plant TFs from whole-genome protein sequences and 
 classify them into families and subfamilies (when applicable) using the 
-classification scheme implemented in [PlantTFDB](http://planttfdb.gao-lab.org/).
+classification schemes implemented in [PlantTFDB](http://planttfdb.gao-lab.org/)
+and [TAPscan](https://tapscan.plantcode.cup.uni-freiburg.de/), as well as
+into structure-based families, classes, and superclasses as in
+Plant-TFClass.
 As `r BiocStyle::Githubpkg("almeidasilvaf/planttfhunter")` interoperates with 
 core Bioconductor packages (i.e., `AAStringSet` objects as input, 
 `SummarizedExperiment` objects as output), it can be easily incorporated in 
@@ -56,8 +59,8 @@ with the following code:
 
 ```{r "install", eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
-      install.packages("BiocManager")
-  }
+    install.packages("BiocManager")
+}
 
 BiocManager::install("planttfhunter")
 ```
@@ -74,7 +77,8 @@ In this vignette, we will use protein sequences of TFs from the algae
 species *Galdieria sulphuraria* as an example, as its proteome is
 very small. The proteome file was 
 downloaded from the PLAZA Diatoms database [@osuna2020seminavis], and 
-it was filtered to keep only TFs for demonstration purposes. 
+it was filtered to keep only genes with TF-related domains for 
+demonstration purposes. 
 The object `gsu` stores the protein sequences in an `AAStringSet` object.
 
 ```{r data}
@@ -85,38 +89,103 @@ gsu
 
 # Algorithm description
 
-TF identification and classification is based on the presence of signature 
-protein domains, which are identified using profile hidden Markov models (HMMs). 
-The family classification scheme is the same as the one used by 
-PlantTFDB [@jin2016planttfdb], and it is summarized below: [^1]
+TF identification and classification is based on the presence of 
+signature protein domains, which are identified using profile hidden Markov
+models (HMMs). Three classification schemes are available:
 
-```{r scheme, echo = FALSE}
-data(classification_scheme)
-knitr::kable(classification_scheme)
+1. **PlantTFDB** [@jin2016planttfdb]: TFs are classified into families and
+subfamilies based on DNA-binding, auxiliary, and forbidden domains.
+
+2. **TAPscan v4** [@petroll2025tapscan]: transcription-associated proteins
+(TAPs), which include TFs, transcriptional regulators (TRs), and putative
+TAPs (PTs), are classified in over 130 families based on rules specifying 
+domains that each family should and should not have. Domain hits are 
+identified using gathering thresholds and domain-specific coverage cutoffs. 
+`r BiocStyle::Githubpkg("almeidasilvaf/planttfhunter")` uses an R 
+implementation of TAPscan's original Perl script, which reproduces the 
+results of the original implementation.
+
+3. **Plant-TFClass** [@blancmathieu2024planttfclass]: TFs are classified
+into families, classes, and superclasses based on the 3D structure of 
+their DNA-binding domains. Plant-TFClass classifications are inferred from 
+TAPscan classifications using a correspondence table between the two
+systems. Some TAPscan families correspond to more than one Plant-TFClass
+family (e.g., TAPscan's AP2 family includes Plant-TFClass's AP2, ERF/DREB, 
+and RAV families). In such cases, PlantTFDB subfamilies are used to resolve 
+the ambiguity, and if that is not possible (e.g., because the gene was not
+classified by PlantTFDB), all possible classifications are reported, 
+separated by ';'.
+
+In all schemes, classification levels without a more specific level are 
+filled with the name of the more general level. For example, PlantTFDB 
+family bHLH has no subfamilies, so its subfamily is also bHLH, and 
+Plant-TFClass class GRAS has no families, so its family is also GRAS.
+
+The classification schemes are available as data sets in this package, and
+you can see them below (click to expand).
+
+<details>
+<summary>PlantTFDB classification scheme 
+(<code>data(planttfdb_scheme)</code>)</summary>
+
+```{r scheme_planttfdb, echo = FALSE}
+data(planttfdb_scheme)
+knitr::kable(planttfdb_scheme)
 ```
 
+</details>
 
-[^1]: **Tip:** You can access this classification scheme in your R session by 
-loading the data frame `data(classification_scheme)`.
+<details>
+<summary>TAPscan classification scheme 
+(<code>data(tapscan_scheme)</code>)</summary>
+
+Genes are assigned to a family (and subfamily, if any) if they have all
+domains in column *Should* and none of the domains in column *Should_not*.
+Numbers in parentheses indicate the required number of copies of a domain.
+
+```{r scheme_tapscan, echo = FALSE}
+data(tapscan_scheme)
+knitr::kable(tapscan_scheme)
+```
+
+</details>
+
+<details>
+<summary>Correspondence between TAPscan and Plant-TFClass 
+(<code>data(planttfclass_scheme)</code>)</summary>
+
+TAPscan families/subfamilies with multiple rows correspond to more than one
+Plant-TFClass family, and the PlantTFDB subfamily of each gene (column
+*PlantTFDB_subfamily*) is used to choose among them.
+
+```{r scheme_planttfclass, echo = FALSE}
+data(planttfclass_scheme)
+knitr::kable(planttfclass_scheme)
+```
+
+</details>
 
 # Identifying and classifying TFs
 
 To identify TFs from protein sequence data, you will use the 
-function `annotate_pfam()`. This function takes as input an `AAStringSet` 
-object [^2] and returns a data frame of protein domains associated with 
-each sequence. The HMMER program [@finn2011hmmer] is used to scan protein 
+function `annotate_domains()`. This function takes as input an `AAStringSet` 
+object [^1] and returns a list of two data frames (`PlantTFDB` and 
+`TAPscan`) with the protein domains used by each classification scheme.
+The HMMER program [@finn2011hmmer] is used to scan protein 
 sequences for the presence of DNA-binding protein domains, as well as
 auxiliary and forbidden domains. Pre-built HMM profiles can be found in the
-*extdata/* directory of this package.
+*extdata/* directory of this package. If you have a multicore 
+machine, you can speed up HMMER searches by increasing the number of 
+threads with the argument `threads`.
 
-[^2]: **Tip:** If you have protein sequences in a FASTA file, you can read 
+[^1]: **Tip:** If you have protein sequences in a FASTA file, you can read 
 them into an `AAStringSet` object with the function `readAAStringSet()` from 
 the `r BiocStyle::Biocpkg("Biostrings")` package.
 
-This is how you can run `annotate_pfam()` [^3]:
+This is how you can run `annotate_domains()` [^2]:
 
-[^3]: **Note:** in the code chunk below, the if statement is not required.
-We just added it to make sure that the function `annotate_pfam()` is only
+[^2]: **Note:** in the code chunk below, the if statement is not required.
+We just added it to make sure that the function `annotate_domains()` is only
 executed if HMMER is installed, to avoid problems when building this
 vignette in machines that do not have HMMER installed. 
 
@@ -125,11 +194,11 @@ data(gsu_annotation)
 
 # Annotate TF-related domains using a local installation of HMMER
 if(hmmer_is_installed()) {
-  gsu_annotation <- annotate_pfam(gsu)
+    gsu_annotation <- annotate_domains(gsu)
 } 
 
 # Take a look at the first few lines of the output
-head(gsu_annotation)
+lapply(gsu_annotation, head)
 ```
 
 Now that we have our TF-related domains, we can classify TFs in families 
@@ -141,50 +210,84 @@ gsu_families <- classify_tfs(gsu_annotation)
 
 # Take a look at the output
 head(gsu_families)
+```
 
-# Count number of TFs per family
-table(gsu_families$Family)
+The output contains one row per gene, and genes that are not classified
+by one of the schemes have `NA` in the respective columns. As Plant-TFClass
+classifications are inferred from TAPscan classifications, TAPscan
+annotation is required to obtain them. As TAPscan's scheme also includes 
+other transcription-associated proteins (e.g., transcriptional regulators),
+more genes are usually classified with TAPscan.
+
+If you are interested in a single classification scheme, you can use
+the argument `scheme` to get only the classifications of that scheme.
+For TAPscan, the class of each family (TF, TR, or PT) is indicated in 
+the column `TAP_class`.
+
+```{r classifying_tfs_tapscan}
+# Get TAPscan classifications only
+tapscan_families <- classify_tfs(gsu_annotation, scheme = "TAPscan")
+head(tapscan_families)
+
+# Number of TFs, TRs, and PTs
+table(tapscan_families$TAP_class)
+```
+
+TAP classes, as well as descriptions and references for each TAPscan family,
+are available in the data set `tap_class`.
+
+```{r tap_class}
+data(tap_class)
+head(tap_class[, c("TAP_family", "TAP_class")])
 ```
 
 # Counting TFs per family in multiple species at once
 
 If you want to get TF counts per family for multiple species, you can use
-the function `get_tf_counts()`. This function takes a list of `AAStringSet`
-objects containing proteomes as input [^4], and it returns a `SummarizedExperiment`
+the function `get_tf_counts()`. This function takes a named list of 
+data frames with TF classifications for each species (as returned 
+by `classify_tfs()`) as input, and it returns a `SummarizedExperiment`
 object containing TF counts per family in each species, as well as species
 metadata (optional). If you are not familiar with the `SummarizedExperiment`
 class, you should consider checking the vignettes of the 
 `r BiocStyle::Biocpkg("SummarizedExperiment")` Bioconductor package.
 
-[^4]: **Tip:** If you have whole-genome protein sequences for multiple
+For real data sets, you would first identify and classify TFs in each 
+species. For instance, if you have a list of `AAStringSet` objects with
+the proteomes of multiple species [^3], you could run:
+
+[^3]: **Tip:** If you have whole-genome protein sequences for multiple
 species as FASTA files in a given directory, you can read them all as a list
 of `AAStringSet` objects with the function `fasta2AAStringSetlist()` from
 the Bioconductor package `r BiocStyle::Biocpkg("syntenet")`.
 
-To demonstrate how `get_tf_counts()` works, we will simulate a 
-list of 4 `AAStringSet` objects by sampling 50 random genes from the example
-data set `gsu` 4 times. 
-
-```{r simulate_data_proteomes}
-set.seed(123) # for reproducibility
-
-# Simulate 4 different species by sampling 100 random genes from `gsu`
-proteomes <- list(
-    Gsu1 = gsu[sample(names(gsu), 50, replace = FALSE)],
-    Gsu2 = gsu[sample(names(gsu), 50, replace = FALSE)],
-    Gsu3 = gsu[sample(names(gsu), 50, replace = FALSE)],
-    Gsu4 = gsu[sample(names(gsu), 50, replace = FALSE)]
-)
-proteomes
+```{r classify_multiple_species, eval = FALSE}
+families <- lapply(proteomes, function(x) classify_tfs(annotate_domains(x)))
 ```
 
-Great, we have a list of 4 `AAStringSet` objects. Now, let's also create a 
-simulated species metadata data frame for each "species" (simulated).
+To demonstrate how `get_tf_counts()` works, we will simulate TF 
+classifications for 4 species by sampling 100 random genes from 
+the TF classifications we obtained above (`gsu_families`) 4 times.
+
+```{r simulate_data_families}
+set.seed(123) # for reproducibility
+
+# Simulate 4 different species by sampling 100 random genes 
+families <- list(
+    Gsu1 = gsu_families[sample(nrow(gsu_families), 100), ],
+    Gsu2 = gsu_families[sample(nrow(gsu_families), 100), ],
+    Gsu3 = gsu_families[sample(nrow(gsu_families), 100), ],
+    Gsu4 = gsu_families[sample(nrow(gsu_families), 100), ]
+)
+```
+
+Now, let's also create a simulated species metadata data frame for 
+each "species".
 
 ```{r simulate_data_species_metadata}
 # Create simulated species metadata
 species_metadata <- data.frame(
-    row.names = names(proteomes),
+    row.names = names(families),
     Division = "Rhodophyta",
     Origin = c("US", "Belgium", "China", "Brazil")
 )
@@ -194,21 +297,19 @@ species_metadata
 
 You can add as many columns as you want to the species metadata data frame, 
 but make sure that **species names are in row names**, and 
-that `names(proteomes)` match `rownames(species)`, 
+that `names(families)` match `rownames(species_metadata)`, 
 otherwise `get_tf_counts()` will return an error. 
 
-Now that we have a list of `AAStringSet` objects and species metadata, we
-can execute `get_tf_counts()`. This function uses `annotate_pfam()` under
-the hood, so you also need to have HMMER installed and in your PATH to run it.
-Here is how you can run it:
+Now that we have a list of TF classifications and species metadata, we
+can execute `get_tf_counts()`. By default, TFs are counted per PlantTFDB 
+family, but you can choose other schemes with the argument `scheme`, and
+other classification levels with the argument `level`. Possible levels 
+are 'family' and 'subfamily' for PlantTFDB and TAPscan, and 'superclass',
+'class', and 'family' for Plant-TFClass. 
 
 ```{r get_tf_counts}
-data(tf_counts)
-
-# Get TF counts per family in each species as a SummarizedExperiment object
-if(hmmer_is_installed()) {
-    tf_counts <- get_tf_counts(proteomes, species_metadata)
-}
+# Get TF counts per PlantTFDB family in each species
+tf_counts <- get_tf_counts(families, species_metadata)
 
 # Take a look at the SummarizedExperiment object
 tf_counts
@@ -218,6 +319,46 @@ SummarizedExperiment::assay(tf_counts)
 
 # Look at the species metadata: colData() function from SummarizedExperiment
 SummarizedExperiment::colData(tf_counts)
+```
+
+When counting TFs at levels below the highest level of a scheme 
+(e.g., subfamilies), the `rowData` of the output contains the higher 
+levels of each row, which you can use to aggregate counts. Here is an 
+example with PlantTFDB subfamilies:
+
+```{r get_tf_counts_subfamily}
+# Get TF counts per PlantTFDB subfamily
+subfam_counts <- get_tf_counts(
+    families, scheme = "PlantTFDB", level = "subfamily"
+)
+
+# Look at the family of each subfamily
+head(SummarizedExperiment::rowData(subfam_counts))
+```
+
+Since `get_tf_counts()` takes classification tables as input, you can also 
+filter them before counting. For example, here is how you can get counts
+of TAPscan TFs (excluding TRs and PTs) per subfamily:
+
+```{r get_tf_counts_tapscan}
+# Keep only TFs in TAPscan classifications
+tapscan_tfs <- lapply(families, function(x) x[x$TAP_class %in% "TF", ])
+
+# Get TF counts per TAPscan subfamily
+tapscan_counts <- get_tf_counts(
+    tapscan_tfs, scheme = "TAPscan", level = "subfamily"
+)
+head(SummarizedExperiment::assay(tapscan_counts))
+```
+
+Finally, here is how you can get TF counts per Plant-TFClass superclass:
+
+```{r get_tf_counts_planttfclass}
+# Get TF counts per Plant-TFClass superclass
+superclass_counts <- get_tf_counts(
+    families, scheme = "PlantTFClass", level = "superclass"
+)
+SummarizedExperiment::assay(superclass_counts)
 ```
 
 Cool, huh? In real-world analyses, once you have TF counts per family in 

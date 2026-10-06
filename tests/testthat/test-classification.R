@@ -1,189 +1,195 @@
-
 #----Load data------------------------------------------------------------------
 data(gsu_annotation)
-domain_annotation <- gsu_annotation
+
+# Helper function to classify a single gene with a set of domains
+classify_one <- function(domains) {
+    fam <- .classify_planttfdb(data.frame(Gene = "g1", Domain = domains))
+    if(nrow(fam) == 0) { return(NULL) }
+    return(fam$Subfamily)
+}
 
 #----Start tests----------------------------------------------------------------
-test_that("classify_tfs() returns a 2-column data frame", {
-  families <- classify_tfs(domain_annotation)
-  expect_equal(class(families), "data.frame")
-  expect_equal(ncol(families), 2)
-})
+test_that("classify_tfs() returns a data frame with families", {
+    families <- classify_tfs(gsu_annotation)
 
-test_that("list_domains() returns a named character vector", {
-    dom_dbd <- list_domains(show = "dbd")
-    dom_forbidden <- list_domains(show = "forbidden")
-    dom_aux <- list_domains(show = "auxiliary")
-    
-    expect_equal(length(dom_dbd), 47)
-    expect_equal(length(dom_forbidden), 5)
-    expect_equal(length(dom_aux), 10)
-    expect_equal(class(dom_dbd), "character")
-    expect_equal(class(dom_forbidden), "character")
-    expect_equal(class(dom_aux), "character")
-    expect_error(list_domains(show = "anything"))
-})
+    expect_true(is(families, "data.frame"))
+    expect_equal(
+        names(families),
+        c("Gene", "PlantTFDB_family", "PlantTFDB_subfamily", "TAPscan_family",
+          "TAPscan_subfamily", "TAP_class", "PlantTFClass_superclass",
+          "PlantTFClass_class", "PlantTFClass_family")
+    )
+    expect_true(nrow(families) > 0)
+    expect_false(any(duplicated(families$Gene)))
 
-
-test_that("check_ap2_erf() returns domain classification", {
-    ct <- check_ap2_erf("PF00847")
-    ct2 <- check_ap2_erf(rep("PF00847", 2))
-    ct3 <- check_ap2_erf(c("PF02362", "PF00847"))
-    cf <- check_ap2_erf("fakedomain")
-    
-    expect_equal(ct, "ERF")
-    expect_equal(ct2, "AP2")
-    expect_equal(ct3, "RAV")
-    expect_equal(cf, NULL)
+    # More specific levels are never missing for classified genes
+    expect_equal(
+        is.na(families$PlantTFDB_family), is.na(families$PlantTFDB_subfamily)
+    )
+    expect_equal(
+        is.na(families$TAPscan_family), is.na(families$TAPscan_subfamily)
+    )
+    expect_equal(
+        is.na(families$PlantTFClass_class), is.na(families$PlantTFClass_family)
+    )
 })
 
 
-test_that("check_b3() returns domain classification", {
-    ct <- check_b3("PF02362")
-    ct2 <- check_b3(c("PF06507", "PF02362"))
-    cf <- check_b3("fakedomain")
-    
-    expect_equal(ct, "B3")
-    expect_equal(ct2, "ARF")
-    expect_equal(cf, NULL)
+test_that("classify_tfs() returns classifications for a single scheme", {
+    all_fams <- classify_tfs(gsu_annotation)
+
+    ptfdb <- classify_tfs(gsu_annotation, scheme = "PlantTFDB")
+    expect_equal(
+        names(ptfdb), c("Gene", "PlantTFDB_family", "PlantTFDB_subfamily")
+    )
+    expect_equal(nrow(ptfdb), sum(!is.na(all_fams$PlantTFDB_family)))
+
+    tap <- classify_tfs(gsu_annotation, scheme = "TAPscan")
+    expect_equal(
+        names(tap),
+        c("Gene", "TAPscan_family", "TAPscan_subfamily", "TAP_class")
+    )
+    expect_false(any(is.na(tap$TAPscan_family)))
+    expect_true(all(tap$TAP_class %in% c("TF", "TR", "PT", NA)))
+    expect_true(all(c("TF", "TR") %in% tap$TAP_class))
+
+    tfclass <- classify_tfs(gsu_annotation, scheme = "PlantTFClass")
+    expect_equal(
+        names(tfclass),
+        c("Gene", "PlantTFClass_superclass", "PlantTFClass_class",
+          "PlantTFClass_family")
+    )
+    expect_false(any(is.na(tfclass$PlantTFClass_superclass)))
+
+    expect_error(classify_tfs(gsu_annotation, scheme = "fake"))
 })
 
 
-test_that("check_c2c2() returns domain classification", {
-    ct <- check_c2c2("PF00320")
-    ct2 <- check_c2c2(c("PF00643", "PF06203"))
-    ct3 <- check_c2c2("PF02701")
-    ct4 <- check_c2c2("PF06943")
-    ct5 <- check_c2c2("PF04690")
-    cf <- check_c2c2("fakedomain")
-    
-    expect_equal(ct, "GATA")
-    expect_equal(ct2, "CO-like")
-    expect_equal(ct3, "Dof")
-    expect_equal(ct4, "LSD")
-    expect_equal(ct5, "YABBY")
-    expect_equal(cf, NULL)
+test_that("classify_tfs() checks input", {
+    msg <- "as returned by annotate_domains"
+    expect_error(classify_tfs(gsu_annotation$PlantTFDB), msg)
+    expect_error(classify_tfs(gsu_annotation["PlantTFDB"]), msg)
+    expect_error(classify_tfs(list(PlantTFDB = 1, TAPscan = 2)), msg)
+
+    bad <- gsu_annotation
+    bad$TAPscan <- bad$TAPscan[, c("Gene", "Domain")]
+    expect_error(classify_tfs(bad), msg)
 })
 
 
-test_that("check_garp() returns domain classification", {
-    ct <- check_garp("G2-like")
-    ct2 <- check_garp(c("PF00072", "G2-like"))
-    cf <- check_garp("fakedomain")
-    
-    expect_equal(ct, "G2-like")
-    expect_equal(ct2, "ARR-B")
-    expect_equal(cf, NULL)
+test_that(".list_domains() returns a named character vector", {
+    dom <- .list_domains()
+    expect_true(is.character(dom))
+    expect_equal(length(dom), 63)
+    expect_false(any(duplicated(dom)))
 })
 
 
-test_that("check_hb() returns domain classification", {
-    ct <- check_hb("PF00046")
-    ct2 <- check_hb(c("PF00046", "HD-ZIP_I/II"))
-    ct3 <- check_hb(c("PF03789", "PF00046"))
-    ct4 <- check_hb(c("PF00628", "PF00046"))
-    ct5 <- check_hb(c("BELL", "PF00046"))
-    ct6 <- check_hb(c("Wus_type_Homeobox", "PF00046"))
-    ct7 <- check_hb(c("PF01852", "PF00046"))
-    cf <- check_hb("fakedomain")
-    
-    expect_equal(ct, "HB-other")
-    expect_equal(ct2, "HD-ZIP")
-    expect_equal(ct3, "TALE")
-    expect_equal(ct4, "HB-PHD")
-    expect_equal(ct5, "TALE")
-    expect_equal(ct6, "WOX")
-    expect_equal(ct7, "HD-ZIP")
-    expect_equal(cf, NULL)
+test_that("all domains used for classification have profile HMMs", {
+    hmm_names <- unlist(lapply(c("PFAM.hmm", "self_built.hmm"), function(f) {
+        lines <- readLines(system.file("extdata", f, package = "planttfhunter"))
+        gsub("^NAME +", "", lines[startsWith(lines, "NAME")])
+    }))
+    expect_true(all(.list_domains() %in% hmm_names))
 })
 
 
-test_that("check_mads() returns domain classification", {
-    ct <- check_mads("PF00319")
-    ct2 <- check_mads(c("PF01486", "PF00319"))
-    cf <- check_mads("fakedomain")
-    
-    expect_equal(ct, "M-type")
-    expect_equal(ct2, "MIKC")
-    expect_equal(cf, NULL)
+test_that(".classify_planttfdb() classifies AP2/ERF and B3 families", {
+    expect_equal(classify_one("PF00847"), "ERF")
+    expect_equal(classify_one(rep("PF00847", 2)), "AP2")
+    expect_equal(classify_one(c("PF02362", "PF00847")), "RAV")
+    expect_equal(classify_one("PF02362"), "B3")
+    expect_equal(classify_one(c("PF06507", "PF02362")), "ARF")
+    expect_null(classify_one("fakedomain"))
 })
 
 
-test_that("check_myb() returns domain classification", {
-    ct <- check_myb("PF00249")
-    cf <- check_myb("fakedomain")
-    
-    expect_equal(ct, "MYB-related")
-    expect_equal(cf, NULL)
+test_that(".classify_planttfdb() classifies C2C2 and GARP families", {
+    expect_equal(classify_one("PF00320"), "GATA")
+    expect_equal(classify_one(c("PF00643", "PF06203")), "CO-like")
+    expect_equal(classify_one(c("PF00643", "PF00643", "PF06203")), "CO-like")
+    expect_equal(classify_one("PF02701"), "Dof")
+    expect_equal(classify_one("PF06943"), "LSD")
+    expect_null(classify_one(c("PF06943", "PF00656")))
+    expect_equal(classify_one("PF04690"), "YABBY")
+    expect_equal(classify_one("G2-like"), "G2-like")
+    expect_equal(classify_one(c("PF00072", "G2-like")), "ARR-B")
 })
 
 
-test_that("check_nf_y() returns domain classification", {
-    ct <- check_nf_y("PF02045")
-    cf <- check_nf_y("fakedomain")
-    
-    expect_equal(ct, "NF-YA")
-    expect_equal(cf, NULL)
+test_that(".classify_planttfdb() classifies HB families", {
+    expect_equal(classify_one("PF00046"), "HB-other")
+    expect_equal(classify_one(c("PF00046", "HD-ZIP_I/II")), "HD-ZIP")
+    expect_equal(classify_one(c("PF01852", "PF00046")), "HD-ZIP")
+    expect_equal(classify_one(c("PF03789", "PF00046")), "TALE")
+    expect_equal(classify_one(c("BELL", "PF00046")), "TALE")
+    expect_equal(classify_one(c("Wus_type_Homeobox", "PF00046")), "WOX")
+    expect_equal(classify_one(c("PF00628", "PF00046")), "HB-PHD")
 })
 
 
-test_that("check_smallfams() returns domain classification", {
-    ct <- check_smallfams("PF00010")
-    ct2 <- check_smallfams("PF06217")
-    ct3 <- check_smallfams("PF05687")
-    ct4 <- check_smallfams("PF00642")
-    ct5 <- check_smallfams("PF03859")
-    ct6 <- check_smallfams(rep("PF00643", 2))
-    ct7 <- check_smallfams("PF04873")
-    ct8 <- check_smallfams("PF03101")
-    ct9 <- check_smallfams("PF04504")
-    ct10 <- check_smallfams("PF03514")
-    ct11 <- check_smallfams(c("PF08879", "PF08880"))
-    ct12 <- check_smallfams("HRT-like")
-    ct13 <- check_smallfams("PF03195")
-    ct14 <- check_smallfams("PF01698")
-    ct15 <- check_smallfams("PF02365")
-    ct16 <- check_smallfams("PF08744")
-    ct17 <- check_smallfams("PF04689")
-    ct18 <- check_smallfams("SAP")
-    ct19 <- check_smallfams("PF03110")
-    ct20 <- check_smallfams("PF05142")
-    ct21 <- check_smallfams("STAT")
-    ct22 <- check_smallfams("PF03634")
-    ct23 <- check_smallfams("trihelix")
-    ct24 <- check_smallfams("VOZ")
-    ct25 <- check_smallfams("PF08536")
-    ct26 <- check_smallfams("PF03106")
-    ct27 <- check_smallfams("PF04770")
-    cf <- check_smallfams("fakedomain")
-    
-    expect_equal(ct, "bHLH")
-    expect_equal(ct2, "BBR-BPC")
-    expect_equal(ct3, "BES1")
-    expect_equal(ct4, "C3H")
-    expect_equal(ct5, "CAMTA")
-    expect_equal(ct6, "DBB")
-    expect_equal(ct7, "EIL")
-    expect_equal(ct8, "FAR1")
-    expect_equal(ct9, "GeBP")
-    expect_equal(ct10, "GRAS")
-    expect_equal(ct11, "GRF")
-    expect_equal(ct12, "HRT-like")
-    expect_equal(ct13, "LBD")
-    expect_equal(ct14, "LFY")
-    expect_equal(ct15, "NAC")
-    expect_equal(ct16, "NZZ/SPL")
-    expect_equal(ct17, "S1Fa-like")
-    expect_equal(ct18, "SAP")
-    expect_equal(ct19, "SBP")
-    expect_equal(ct20, "SRS")
-    expect_equal(ct21, "STAT")
-    expect_equal(ct22, "TCP")
-    expect_equal(ct23, "Trihelix")
-    expect_equal(ct24, "VOZ")
-    expect_equal(ct25, "Whirly")
-    expect_equal(ct26, "WRKY")
-    expect_equal(ct27, "ZF-HD")
+test_that(".classify_planttfdb() classifies MADS, MYB and NF-Y families", {
+    expect_equal(classify_one("PF00319"), "M-type")
+    expect_equal(classify_one(c("PF01486", "PF00319")), "MIKC")
+    expect_equal(classify_one("PF00249"), "MYB-related")
+    expect_equal(classify_one(rep("PF00249", 3)), "MYB")
+    expect_null(classify_one(c("PF00249", "PF04433")))
+    expect_equal(classify_one("PF02045"), "NF-YA")
+    expect_equal(classify_one("NF-YB"), "NF-YB")
+    expect_equal(classify_one("NF-YC"), "NF-YC")
+})
 
-    expect_equal(cf, NULL)
+
+test_that(".classify_planttfdb() classifies smaller families", {
+    small <- c(
+        PF06217 = "BBR-BPC", PF05687 = "BES1", PF00010 = "bHLH",
+        PF00170 = "bZIP", PF00096 = "C2H2", PF00642 = "C3H",
+        PF03859 = "CAMTA", PF03638 = "CPP", PF02319 = "E2F/DP",
+        PF04873 = "EIL", PF03101 = "FAR1", PF04504 = "GeBP",
+        PF03514 = "GRAS", `HRT-like` = "HRT-like", PF00447 = "HSF",
+        PF03195 = "LBD", PF01698 = "LFY", PF02365 = "NAC",
+        PF01422 = "NF-X1", PF02042 = "Nin-like", PF08744 = "NZZ/SPL",
+        PF04689 = "S1Fa-like", SAP = "SAP", PF03110 = "SBP",
+        PF05142 = "SRS", STAT = "STAT", PF03634 = "TCP",
+        trihelix = "Trihelix", VOZ = "VOZ", PF08536 = "Whirly",
+        PF03106 = "WRKY", PF04770 = "ZF-HD"
+    )
+    fams <- vapply(names(small), classify_one, character(1))
+    expect_equal(fams, small)
+
+    expect_equal(classify_one(c("PF08879", "PF08880")), "GRF")
+    expect_equal(classify_one(rep("PF00643", 2)), "DBB")
+    expect_null(classify_one(c("PF00096", "PF00929")))
+    expect_null(classify_one(c("PF00642", "PF00076")))
+})
+
+
+test_that(".classify_planttfdb() handles multiple genes and families", {
+    annot <- data.frame(
+        Gene = c("g1", "g1", "g2", "g3", "g3"),
+        Domain = c("PF00847", "PF00847", "PF00010", "G2-like", "PF00249")
+    )
+    fams <- .classify_planttfdb(annot)
+    expect_equal(fams$Gene, c("g1", "g2", "g3"))
+    expect_equal(fams$Subfamily, c("AP2", "bHLH", "G2-like;MYB-related"))
+    expect_equal(fams$Family, c("AP2/ERF", "bHLH", "GARP;MYB superfamily"))
+
+    empty <- .classify_planttfdb(data.frame(Gene = "g1", Domain = "fake"))
+    expect_equal(nrow(empty), 0)
+})
+
+
+test_that("all PlantTFDB subfamilies have a family in the scheme", {
+    data(planttfdb_scheme)
+    m <- matrix(
+        0L, 1, length(.list_domains()),
+        dimnames = list("g1", unname(.list_domains()))
+    )
+    labels <- unlist(lapply(.planttfdb_rules(m), names))
+    expect_true(all(labels %in% planttfdb_scheme$Subfamily))
+    expect_equal(
+        planttfdb_families,
+        unique(planttfdb_scheme[, c("Family", "Subfamily")]),
+        ignore_attr = TRUE
+    )
 })

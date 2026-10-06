@@ -1,98 +1,138 @@
+#' Package-level environment to cache objects within an R session
+#' @noRd
+.pkg_env <- new.env(parent = emptyenv())
 
 
 #' Read and parse hmmsearch output
 #'
 #' @param path Path to hmmsearch output in --domtblout format.
 #'
-#' @return A parsed data frame with the 23 columns HMMER outputs by default.
-#' 
+#' @return A data frame with the 23 columns of the --domtblout format, in
+#' the same row order as in the file. If the file has no hits, a data frame
+#' with 0 rows is returned.
+#'
 #' @noRd
-#' @importFrom utils read.csv
-read_hmmsearch <- function(path = NULL) {
-  
-  stab <- gsub(pattern = "  *", replacement = "\t", readLines(path))
-  stab <- stab[!startsWith(stab, "#")]
-  if(length(stab) != 0) {
-    stab <- paste0(stab, collapse = "\n")
-    stab <- utils::read.csv(textConnection(stab), sep = "\t", header = FALSE)
-    colnames(stab) <- c(
-      "domain_name", "domain_accession", "domain_len",
-      "query_name", "query_accession", "qlen",
-      "sequence_evalue", "sequence_score", "sequence_bias",
-      "domain_N", "domain_of", "domain_cevalue", "domain_ievalue",
-      "domain_score", "domain_bias",
-      "hmm_from", "hmm_to",
-      "ali_from", "ali_to",
-      "env_from", "env_to",
-      "acc", "description"
+.read_hmmsearch <- function(path = NULL) {
+
+    cols <- c(
+        "target_name", "target_accession", "tlen",
+        "query_name", "query_accession", "qlen",
+        "full_evalue", "full_score", "full_bias",
+        "dom_n", "dom_of", "c_evalue", "i_evalue", "dom_score", "dom_bias",
+        "hmm_from", "hmm_to", "ali_from", "ali_to", "env_from", "env_to",
+        "acc", "description"
     )
-  } else {
-    stab <- NULL
-  }
-  return(stab)
+    num_cols <- setdiff(cols, c(
+        "target_name", "target_accession", "query_name", "query_accession",
+        "description"
+    ))
+
+    lines <- readLines(path)
+    lines <- lines[!startsWith(lines, "#") & nzchar(trimws(lines))]
+
+    fields <- strsplit(trimws(lines), "[[:space:]]+")
+    mat <- vapply(fields, function(x) {
+        c(x[seq_len(22)], paste(x[-seq_len(22)], collapse = " "))
+    }, character(23))
+    mat <- matrix(mat, ncol = 23, byrow = TRUE, dimnames = list(NULL, cols))
+
+    res <- as.data.frame(mat, stringsAsFactors = FALSE)
+    res[num_cols] <- lapply(res[num_cols], as.numeric)
+    return(res)
 }
+
+
+#' Run hmmsearch and parse its output
+#'
+#' @param seq_path Path to a FASTA file with protein sequences.
+#' @param hmm_path Path to a file with profile HMMs.
+#' @param extra_args Character vector of additional arguments to hmmsearch.
+#' @param threads Numeric indicating the number of threads to use.
+#'
+#' @return A data frame with parsed hmmsearch output as returned
+#' by \code{.read_hmmsearch()}.
+#' @noRd
+.run_hmmsearch <- function(
+        seq_path, hmm_path, extra_args = NULL, threads = 1
+) {
+
+    out_file <- tempfile(pattern = "hmmsearch", fileext = ".domtblout")
+    on.exit(unlink(out_file))
+
+    args <- c(
+        "--noali", "--cpu", threads, extra_args,
+        "--domtblout", shQuote(out_file), shQuote(hmm_path), shQuote(seq_path)
+    )
+    status <- system2("hmmsearch", args = args, stdout = FALSE)
+    if(!identical(as.integer(status), 0L)) {
+        stop("hmmsearch failed for HMM file '", basename(hmm_path), "'.")
+    }
+
+    return(.read_hmmsearch(out_file))
+}
+
 
 #' Filter HMMER results based on domain cutoffs for each domain
 #'
-#' @param hmmer_results A data frame with HMMER results as returned 
-#' by \code{read_hmmsearch}.
-#' @param evalue Numeric indicating the E-value threshold for hmmsearch 
-#' to be used for domains without pre-defined domain cutoffs. 
-#' Only valid if parameter mode = 'local'. Default: 1e-05.
-#' 
+#' @param hmmer_results A data frame with HMMER results as returned
+#' by \code{.read_hmmsearch()}.
+#' @param evalue Numeric indicating the E-value threshold to use for domains
+#' without pre-defined domain cutoffs. Default: 1e-05.
+#'
 #' @return The same data frame passed as input, but filtered based
 #' on domain cutoffs.
 #' @noRd
-filter_hmmer <- function(hmmer_results = NULL, evalue = 1e-05) {
-    
-    cutoffs <- score_cutoff
-    
-    res_cutoff <- merge(hmmer_results, cutoffs,
-                        by.x = "query_name", by.y = "domain")
-    
-    # 1) Filter by domain cutoff
-    res_filt1 <- res_cutoff[!is.na(res_cutoff$domaincutoff), ]
-    res_filt1 <- res_filt1[res_filt1$domain_score >= res_filt1$domaincutoff, ]
-    
-    # 2) Filter by evalue
-    res_filt2 <- res_cutoff[is.na(res_cutoff$domaincutoff), ]
-    res_filt2 <- res_filt2[res_filt2$sequence_evalue < evalue, ]
-    
-    # Combine results
-    res_filtered <- rbind(res_filt1, res_filt2) 
+.filter_hmmer <- function(hmmer_results = NULL, evalue = 1e-05) {
+
+    idx <- match(hmmer_results$query_name, score_cutoff$domain)
+    cutoff <- score_cutoff$domaincutoff[idx]
+
+    # Domains with a cutoff are filtered by score; others, by E-value
+    pass_score <- !is.na(cutoff) & hmmer_results$dom_score >= cutoff
+    pass_evalue <- is.na(cutoff) & hmmer_results$full_evalue < evalue
+    keep <- !is.na(idx) & (pass_score | pass_evalue)
+
+    res_filtered <- hmmer_results[keep, ]
+    rownames(res_filtered) <- NULL
     return(res_filtered)
 }
 
 
-#' Wrapper to check if command is found in PATH
-#' 
-#' @param cmd Command to test.
-#' @param args Arguments for command.
+#' Get path to the uncompressed TAPscan profile HMMs
 #'
-#' @return Logical indicating whether the command is in PATH or not.
+#' TAPscan HMMs are stored gzip-compressed in the package. This function
+#' decompresses them to a temporary file once per R session and returns the
+#' path to the uncompressed file.
+#'
+#' @return Character with the path to the uncompressed HMM file.
 #' @noRd
-is_valid_cmd <- function(cmd = NULL, args = NULL) {
-  found <- tryCatch(
-    system2(cmd, args = args, stdout = FALSE, stderr = FALSE), 
-    error = function(e) return(FALSE),
-    warning = function(w) return(FALSE)
-  )
-  if(!isFALSE(found)) {
-    found <- TRUE
-  }
-  return(found)
+.tapscan_hmm_path <- function() {
+
+    path <- .pkg_env$tapscan_hmm
+    if(is.null(path) || !file.exists(path)) {
+        gz <- system.file(
+            "extdata", "tapscan", "TAPscan_v13.hmm.gz",
+            package = "planttfhunter"
+        )
+        path <- tempfile(pattern = "TAPscan_v13", fileext = ".hmm")
+        con <- gzfile(gz, open = "rt")
+        on.exit(close(con))
+        writeLines(readLines(con), path)
+        .pkg_env$tapscan_hmm <- path
+    }
+    return(path)
 }
+
 
 #' Check if HMMER is installed
-#' 
-#' @return Logical indicating whether HMMER is installed or not.
+#'
+#' @return Logical indicating whether HMMER is installed (i.e., whether
+#' the program \code{hmmsearch} is in the PATH) or not.
 #' @export
 #' @rdname hmmer_is_installed
-#' @examples 
+#' @examples
 #' hmmer_is_installed()
 hmmer_is_installed <- function() {
-  valid <- is_valid_cmd(cmd = "hmmsearch", args = "-h")
-  return(valid)
+    installed <- nzchar(Sys.which("hmmsearch"))
+    return(unname(installed))
 }
-
-
